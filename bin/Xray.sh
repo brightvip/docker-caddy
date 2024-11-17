@@ -46,7 +46,46 @@ cat << EOF >/usr/app/lib/Xray/configh2.json.template
 }
 EOF
 
-sync
+cat << EOF >/usr/app/lib/Xray/configws.json.template
+{
+  "log": {
+    "access": "none",
+    "error": "none",
+    "loglevel": "none"
+  },
+  "inbounds": [
+    {
+      "port": Xrayport,
+      "listen": "Xlisten",
+      "protocol": "Xrayprotocol",
+      "settings": {
+        "clients": [
+          {
+            "id": "CLIENTSID",
+            "level": 0
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+          "path": "WSPATH",
+          "maxEarlyData": 1024,
+          "earlyDataHeaderName": "Sec-WebSocket-Protocol",
+          "acceptProxyProtocol": false
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom"
+    }
+  ]
+}
+EOF
 
 cat << EOF >/usr/app/lib/Xray/Xrayl.h2.template
 	handle H2PATH {
@@ -58,9 +97,25 @@ cat << EOF >/usr/app/lib/Xray/Xrayl.h2.template
 	}
 EOF
 
+cat << EOF >/usr/app/lib/Xray/Xrayl.ws.template
+	handle WSPATH {
+    		@websocket {
+    			header Connection Upgrade
+    			header Upgrade websocket
+    		}
+    		reverse_proxy @websocket Xlisten:Xrayport
+	}
+EOF
+
+sync
+
  sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:H2PATH:'"${PREFIX_PATH}/h2l/"':' /usr/app/lib/Xray/Xrayl.h2.template > /usr/app/lib/Xray/Xrayl.h2
- sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:H2PATH:'"${PREFIX_PATH}/h2l/"':' /usr/app/lib/Xray/configh2.json.template > /usr/app/lib/Xray/configh2.json
+ sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:H2PATH:'"${PREFIX_PATH}/h2l/"':' /usr/app/lib/Xray/configh2.json.template > /usr/app/lib/Xray/Xrayl.h2.json
  sed -i '32 r /usr/app/lib/Xray/Xrayl.h2' /etc/caddy/Caddyfile
+
+ sed -e 's/Xrayport/9303/' -e 's/Xlisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' /usr/app/lib/Xray/Xrayl.ws.template > /usr/app/lib/Xray/Xrayl.ws
+ sed -e 's/Xrayport/9303/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' /usr/app/lib/Xray/configws.json.template > /usr/app/lib/Xray/Xrayl.ws.json
+ sed -i '32 r /usr/app/lib/Xray/Xrayl.ws' /etc/caddy/Caddyfile
 
 sync
 
@@ -101,7 +156,8 @@ start(){
             
             done
 
-        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/configh2.json  >/usr/share/caddy/config.html 2>&1 &
+        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.h2.json  >/usr/share/caddy/configlh2.html 2>&1 &
+        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.ws.json  >/usr/share/caddy/configlws.html 2>&1 &
 
         echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
     fi
