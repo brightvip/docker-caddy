@@ -8,7 +8,7 @@ path='/usr/app/lib/Xray/bin/'
 conf(){
  mkdir -p /usr/app/lib/Xray/
  
-cat << EOF >/usr/app/lib/Xray/configh2.json.template
+cat << EOF >/usr/app/lib/Xray/configgrpc.json.template
 {
   "log": {
     "access": "none",
@@ -30,10 +30,10 @@ cat << EOF >/usr/app/lib/Xray/configh2.json.template
         "decryption": "none"
       },
       "streamSettings": {
-        "network": "h2",
+        "network": "grpc",
         "security": "none",
-        "httpSettings": {
-          "path": "H2PATH"
+        "grpcSettings": {
+          "serviceName": "GRPCSERVICENAME"
         }
       }
     }
@@ -87,8 +87,8 @@ cat << EOF >/usr/app/lib/Xray/configws.json.template
 }
 EOF
 
-cat << EOF >/usr/app/lib/Xray/Xrayl.h2.template
-	handle H2PATH {
+cat << EOF >/usr/app/lib/Xray/Xrayl.grpc.template
+	handle GRPCPATH {
     		reverse_proxy Xlisten:Xrayport {
         		transport http {
             		versions h2c
@@ -109,9 +109,9 @@ EOF
 
 sync
 
- sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:H2PATH:'"${PREFIX_PATH}/h2l/"':' /usr/app/lib/Xray/Xrayl.h2.template > /usr/app/lib/Xray/Xrayl.h2
- sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:H2PATH:'"${PREFIX_PATH}/h2l/"':' /usr/app/lib/Xray/configh2.json.template > /usr/app/lib/Xray/Xrayl.h2.json
- sed -i '32 r /usr/app/lib/Xray/Xrayl.h2' /etc/caddy/Caddyfile
+ sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}/grpcl/*"':' /usr/app/lib/Xray/Xrayl.grpc.template > /usr/app/lib/Xray/Xrayl.grpc
+ sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH}/grpcl/grpc"':' /usr/app/lib/Xray/configgrpc.json.template > /usr/app/lib/Xray/Xrayl.grpc.json
+ sed -i '32 r /usr/app/lib/Xray/Xrayl.grpc' /etc/caddy/Caddyfile
 
  sed -e 's/Xrayport/9303/' -e 's/Xlisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' /usr/app/lib/Xray/Xrayl.ws.template > /usr/app/lib/Xray/Xrayl.ws
  sed -e 's/Xrayport/9303/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' /usr/app/lib/Xray/configws.json.template > /usr/app/lib/Xray/Xrayl.ws.json
@@ -156,7 +156,7 @@ start(){
             
             done
 
-        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.h2.json  >/usr/share/caddy/configlh2.html 2>&1 &
+        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.grpc.json  >/usr/share/caddy/configlgrpc.html 2>&1 &
         nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.ws.json  >/usr/share/caddy/configlws.html 2>&1 &
 
         echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
