@@ -8,7 +8,7 @@ path='/usr/app/lib/v2ray/bin/'
 conf(){
  mkdir -p /usr/app/lib/v2ray/
  
-cat << EOF >/usr/app/lib/v2ray/configh2.json.template
+cat << EOF >/usr/app/lib/v2ray/configgrpc.json.template
 {
   "log": {
     "access": "none",
@@ -30,10 +30,10 @@ cat << EOF >/usr/app/lib/v2ray/configh2.json.template
         "decryption": "none"
       },
       "streamSettings": {
-        "network": "h2",
+        "network": "grpc",
         "security": "none",
-        "httpSettings": {
-          "path": "H2PATH"
+        "grpcSettings": {
+          "serviceName": "GRPCSERVICENAME"
         }
       }
     }
@@ -89,8 +89,8 @@ EOF
 
 
 
-cat << EOF >/usr/app/lib/v2ray/v2raym.h2.template
-	handle H2PATH {
+cat << EOF >/usr/app/lib/v2ray/v2raym.grpc.template
+	handle GRPCPATH {
     		reverse_proxy v2listen:v2rayport {
         		transport http {
             		versions h2c
@@ -112,9 +112,9 @@ EOF
 
  sync
 
- sed -e 's/v2rayport/9301/' -e 's/v2listen/127.0.0.1/'  -e 's:H2PATH:'"${PREFIX_PATH}/h2m/*"':' /usr/app/lib/v2ray/v2raym.h2.template > /usr/app/lib/v2ray/v2raym.h2
- sed -e 's/v2rayport/9301/'  -e 's/v2rayprotocol/vmess/' -e 's/v2listen/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:H2PATH:'"${PREFIX_PATH}/h2m/"':' /usr/app/lib/v2ray/configh2.json.template > /usr/app/lib/v2ray/v2raym.h2.json
- sed -i '32 r /usr/app/lib/v2ray/v2raym.h2' /etc/caddy/Caddyfile
+ sed -e 's/v2rayport/9301/' -e 's/v2listen/127.0.0.1/'  -e 's:GRPCPATH:'"${PREFIX_PATH}/grpcl/*"':' /usr/app/lib/v2ray/v2raym.grpc.template > /usr/app/lib/v2ray/v2raym.grpc
+ sed -e 's/v2rayport/9301/'  -e 's/v2rayprotocol/vmess/' -e 's/v2listen/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH}/grpcl/grpc"':' /usr/app/lib/v2ray/configgrpc.json.template > /usr/app/lib/v2ray/v2raym.grpc.json
+ sed -i '32 r /usr/app/lib/v2ray/v2raym.grpc' /etc/caddy/Caddyfile
 
  sed -e 's/v2rayport/9302/' -e 's/v2listen/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/*"':' /usr/app/lib/v2ray/v2raym.ws.template > /usr/app/lib/v2ray/v2raym.ws
  sed -e 's/v2rayport/9302/'  -e 's/v2rayprotocol/vmess/' -e 's/v2listen/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/"':' /usr/app/lib/v2ray/configws.json.template > /usr/app/lib/v2ray/v2raym.ws.json
@@ -158,7 +158,7 @@ start(){
                 rm -fr $path$vfile
             
             done
-        nohup $path$latest_version/v2ray run -c /usr/app/lib/v2ray/v2raym.h2.json  >/usr/share/caddy/configmh2.html 2>&1 &
+        nohup $path$latest_version/v2ray run -c /usr/app/lib/v2ray/v2raym.grpc.json  >/usr/share/caddy/configlgrpc.html 2>&1 &
 	nohup $path$latest_version/v2ray run -c /usr/app/lib/v2ray/v2raym.ws.json  >/usr/share/caddy/configmws.html 2>&1 &
 
         echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
