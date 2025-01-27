@@ -109,7 +109,7 @@ EOF
 
 sync
 
- sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}/grpcl/"':' /usr/app/lib/Xray/Xrayl.grpc.template > /usr/app/lib/Xray/Xrayl.grpc
+ sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}/grpcl/*"':' /usr/app/lib/Xray/Xrayl.grpc.template > /usr/app/lib/Xray/Xrayl.grpc
  sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH}/grpcl/"':' /usr/app/lib/Xray/configgrpc.json.template > /usr/app/lib/Xray/Xrayl.grpc.json
  sed -i '32 r /usr/app/lib/Xray/Xrayl.grpc' /etc/caddy/Caddyfile
 
@@ -156,7 +156,7 @@ start(){
             
             done
 
-        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.h2.json  >/usr/app/lib/Xray/Xrayl.grpc.json 2>&1 &
+        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.grpc.json  >/usr/share/caddy/configlgrpc.html 2>&1 &
         nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.ws.json  >/usr/share/caddy/configlws.html 2>&1 &
 
         echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
