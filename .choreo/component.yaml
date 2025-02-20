@@ -9,16 +9,4 @@ endpoints:
     networkVisibilities: 
       - Public
     schemaFilePath:
-
-  dependencies:
-    connectionReferences:
-      - name: caddy-web-connection
-        resourceRef: service:/caddy/web/connection
-  configuration:
-    env:
-      # +required Name of the environment variable
-      - name: HR_SERVICE_URL
-        valueFrom:
-          connectionRef:
-            name: hr-connection
-            key: ServiceURL
+    
