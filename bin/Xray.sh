@@ -112,6 +112,8 @@ sync
  sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}/grpcl/*"':' /usr/app/lib/Xray/Xrayl.grpc.template > /usr/app/lib/Xray/Xrayl.grpc
  sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH}/grpcl/grpc"':' /usr/app/lib/Xray/configgrpc.json.template > /usr/app/lib/Xray/Xrayl.grpc.json
  sed -i '32 r /usr/app/lib/Xray/Xrayl.grpc' /etc/caddy/Caddyfile
+ 
+sync
 
  sed -e 's/Xrayport/9303/' -e 's/Xlisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' /usr/app/lib/Xray/Xrayl.ws.template > /usr/app/lib/Xray/Xrayl.ws
  sed -e 's/Xrayport/9303/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' /usr/app/lib/Xray/configws.json.template > /usr/app/lib/Xray/Xrayl.ws.json
