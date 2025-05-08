@@ -116,6 +116,8 @@ EOF
  sed -e 's/v2rayport/9301/'  -e 's/v2rayprotocol/vmess/' -e 's/v2listen/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:H2PATH:'"${PREFIX_PATH}/h2m/"':' /usr/app/lib/v2ray/configh2.json.template > /usr/app/lib/v2ray/v2raym.h2.json
  sed -i '32 r /usr/app/lib/v2ray/v2raym.h2' /etc/caddy/Caddyfile
 
+sync
+
  sed -e 's/v2rayport/9302/' -e 's/v2listen/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/*"':' /usr/app/lib/v2ray/v2raym.ws.template > /usr/app/lib/v2ray/v2raym.ws
  sed -e 's/v2rayport/9302/'  -e 's/v2rayprotocol/vmess/' -e 's/v2listen/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/"':' /usr/app/lib/v2ray/configws.json.template > /usr/app/lib/v2ray/v2raym.ws.json
  sed -i '32 r /usr/app/lib/v2ray/v2raym.ws' /etc/caddy/Caddyfile
