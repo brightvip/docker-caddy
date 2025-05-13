@@ -63,6 +63,9 @@ EOF
  sed -i '$d' /usr/app/ssl/server.crt
  sed -i '1i\-----BEGIN CERTIFICATE-----' /usr/app/ssl/server.crt
  sed -i '$a\-----END CERTIFICATE-----' /usr/app/ssl/server.crt
+
+ echo "SSLCERTIFICATE=: $SSLCERTIFICATE"
+ cat /usr/app/ssl/server.crt
  
  cat << EOF >/usr/app/ssl/server.key
 $SSLCERTIFICATEKEY
@@ -74,6 +77,9 @@ EOF
  sed -i '$d' /usr/app/ssl/server.key
  sed -i '1i\-----BEGIN PRIVATE KEY-----' /usr/app/ssl/server.key
  sed -i '$a\-----END PRIVATE KEY-----' /usr/app/ssl/server.key
+
+ echo "SSLCERTIFICATEKEY=: $SSLCERTIFICATEKEY"
+ cat /usr/app/ssl/server.key
  
  cat << EOF >/etc/caddy/Caddyfile
 {
