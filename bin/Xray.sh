@@ -8,7 +8,7 @@ path='/usr/app/lib/Xray/bin/'
 conf(){
  mkdir -p /usr/app/lib/Xray/
  
-cat << EOF >/usr/app/lib/Xray/configgrpc.json.template
+cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
 {
   "log": {
     "access": "none",
@@ -17,51 +17,13 @@ cat << EOF >/usr/app/lib/Xray/configgrpc.json.template
   },
   "inbounds": [
     {
-      "port": Xrayport,
-      "listen": "Xlisten",
-      "protocol": "Xrayprotocol",
+      "port": wsport,
+      "listen": "wslisten",
+      "protocol": "wsprotocol",
       "settings": {
         "clients": [
           {
-            "id": "CLIENTSID",
-            "level": 0
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "grpc",
-        "security": "none",
-        "grpcSettings": {
-          "serviceName": "GRPCSERVICENAME"
-        }
-      }
-    }
-  ],
-  "outbounds": [
-    {
-      "protocol": "freedom"
-    }
-  ]
-}
-EOF
-
-cat << EOF >/usr/app/lib/Xray/configws.json.template
-{
-  "log": {
-    "access": "none",
-    "error": "none",
-    "loglevel": "none"
-  },
-  "inbounds": [
-    {
-      "port": Xrayport,
-      "listen": "Xlisten",
-      "protocol": "Xrayprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "CLIENTSID",
+            "id": "wsCLIENTSID",
             "level": 0
           }
         ],
@@ -87,39 +49,31 @@ cat << EOF >/usr/app/lib/Xray/configws.json.template
 }
 EOF
 
-cat << EOF >/usr/app/lib/Xray/Xrayl.grpc.template
-	handle GRPCPATH {
-    		reverse_proxy Xlisten:Xrayport {
-        		transport http {
-            		versions h2c
-        		}
-    		}
-	}
-EOF
+ sync
 
-cat << EOF >/usr/app/lib/Xray/Xrayl.ws.template
+cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
 	handle WSPATH {
     		@websocket {
     			header Connection Upgrade
     			header Upgrade websocket
     		}
-    		reverse_proxy @websocket Xlisten:Xrayport
+    		reverse_proxy @websocket wslisten:wsport
 	}
 EOF
 
-sync
+ sync
 
- sed -e 's/Xrayport/9300/' -e 's/Xlisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}/grpcl/*"':' /usr/app/lib/Xray/Xrayl.grpc.template > /usr/app/lib/Xray/Xrayl.grpc
- sed -e 's/Xrayport/9300/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH}/grpcl/grpc"':' /usr/app/lib/Xray/configgrpc.json.template > /usr/app/lib/Xray/Xrayl.grpc.json
- sed -i '32 r /usr/app/lib/Xray/Xrayl.grpc' /etc/caddy/Caddyfile
- 
-sync
+ sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
 
- sed -e 's/Xrayport/9303/' -e 's/Xlisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' /usr/app/lib/Xray/Xrayl.ws.template > /usr/app/lib/Xray/Xrayl.ws
- sed -e 's/Xrayport/9303/'  -e 's/Xrayprotocol/vless/' -e 's/Xlisten/127.0.0.1/' -e 's:CLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' /usr/app/lib/Xray/configws.json.template > /usr/app/lib/Xray/Xrayl.ws.json
- sed -i '32 r /usr/app/lib/Xray/Xrayl.ws' /etc/caddy/Caddyfile
+ sync
 
-sync
+ sed -e 's/wsport/9302/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
+
+ sync
+
+ sed -i '32 r /usr/app/lib/Xray/Xrayl.caddy' /etc/caddy/Caddyfile
+
+ sync
 
 }
 conf
@@ -158,8 +112,7 @@ start(){
             
             done
 
-        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.grpc.json  >/usr/share/caddy/configlgrpc.html 2>&1 &
-        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.ws.json  >/usr/share/caddy/configlws.html 2>&1 &
+        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.json  >/usr/share/caddy/Xrayl.html 2>&1 &
 
         echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
     fi
