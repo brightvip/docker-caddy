@@ -97,7 +97,7 @@ EOF
  sync
 
  sed -e 's/wsport/9303/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' \
-     -e 's/xhttpport/9300/' -e 's/xhttplisten/127.0.0.1/'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/*"':'  /usr/app/lib/Xray/Xrayl.caddy.template \> /usr/app/lib/Xray/Xrayl.caddy
+     -e 's/xhttpport/9300/' -e 's/xhttplisten/127.0.0.1/'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/*"':'  /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
 
  sync
 
