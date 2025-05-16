@@ -92,8 +92,8 @@ EOF
 
  sync
 
- sed -e 's/grpcport/9301/'  -e 's/grpcprotocol/vmess/' -e 's/grpclisten/127.0.0.1/' -e 's:grpcCLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH}grpcm"':' \
-     -e 's/wsport/9302/'  -e 's/wsprotocol/vmess/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/"':' /usr/app/lib/v2ray/v2rayConfig.json.template > /usr/app/lib/v2ray/v2raym.json
+ sed -e 's/grpcport/9301/'  -e 's/grpcprotocol/vmess/' -e 's/grpclisten/127.0.0.1/' -e 's:grpcCLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH#/}grpcm"':' \
+     -e 's/wsport/9302/'  -e 's/wsprotocol/vmess/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/"':' /usr/app/lib/v2ray/v2rayConfig.json.template > /usr/app/lib/v2ray/v2raym2.json
  
  sync
  
