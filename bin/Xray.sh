@@ -39,6 +39,26 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           "acceptProxyProtocol": false
         }
       }
+    },
+    {
+      "port": xhttpport,
+      "listen": "xhttplisten",
+      "protocol": "xhttpprotocol",
+      "settings": {
+        "clients": [
+          {
+            "id": "xhttpCLIENTSID",
+            "level": 0
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "xhttpSettings": {
+          "path": "XHTTPPATH"
+        }
+      }
     }
   ],
   "outbounds": [
@@ -59,15 +79,25 @@ cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
     		}
     		reverse_proxy @websocket wslisten:wsport
 	}
+
+	handle XHTTPPATH {
+    		reverse_proxy xhttplisten:xhttpport {
+        		transport http {
+            		versions h2c
+        		}
+    		}
+	}
 EOF
 
  sync
 
- sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
+ sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' \
+     -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/"':'  /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
 
  sync
 
- sed -e 's/wsport/9303/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
+ sed -e 's/wsport/9303/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' \
+     -e 's/xhttpport/9300/' -e 's/xhttplisten/127.0.0.1/'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/*"':'  /usr/app/lib/Xray/Xrayl.caddy.template \> /usr/app/lib/Xray/Xrayl.caddy
 
  sync
 
