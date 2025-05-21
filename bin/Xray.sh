@@ -59,6 +59,36 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           "path": "XHTTPPATH"
         }
       }
+    },
+    {
+      "port": realityport,
+      "listen": "realitylisten",
+      "protocol": "realityprotocol",
+      "settings": {
+        "clients": [
+          {
+            "id": "realityCLIENTSID",
+            "flow": "xtls-rprx-vision"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "show": true,
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "dest": "realitydest",
+          "serverNames": [
+            realityserverNames
+          ],
+
+          "privateKey": "realityprivateKey",
+          "shortIds": [
+            ""
+          ]
+        }
+      }
     }
   ],
   "outbounds": [
@@ -92,7 +122,10 @@ EOF
  sync
 
  sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' \
-     -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/"':'  /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
+     -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/"':'  \
+     -e 's:realityport:'"${REALITYPORT:-8010}"':'  -e 's:realitylisten:'"${REALITYLISTEN:-127.0.0.1}"':' -e 's/realityprotocol/vless/' -e 's:realityCLIENTSID:'"${CLIENTSID}"':' \
+     -e 's:realitydest:'"${REALITYDEST:-0}"':'  -e 's:realityserverNames:'""\"$(echo ${REALITYSERVERNAMES:-0 1} | sed 's/ /\",\"/g')\"""':' \
+     -e 's:realityprivateKey:'"${REALITYPRIVATEKEY:-0000000000000000000000000000000000000000000}"':' /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
 
  sync
 
