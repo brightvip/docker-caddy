@@ -74,15 +74,13 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
         "decryption": "none"
       },
       "streamSettings": {
-        "show": true,
-        "network": "tcp",
+        "network": "raw",
         "security": "reality",
         "realitySettings": {
           "dest": "realitydest",
           "serverNames": [
             realityserverNames
           ],
-
           "privateKey": "realityprivateKey",
           "shortIds": [
             ""
