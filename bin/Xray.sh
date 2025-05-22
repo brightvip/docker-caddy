@@ -76,7 +76,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
         "network": "xhttp",
         "xhttpSettings": {
           "path": "realityXHTTPPATH"
-        }
+        },
         "security": "reality",
         "realitySettings": {
           "dest": "realitydest",
