@@ -9,12 +9,14 @@ conf(){
  mkdir -p /usr/app/lib/ttyd
 
  cat << EOF >/usr/app/lib/ttyd.ws.template
-	handle_path WSPATH {
-    		reverse_proxy ttydlisten:ttydport
+	handle_path PATH {
+    		reverse_proxy ttydlisten:ttydport {
+      			flush_interval -1
+      		}
 	}
 EOF
 
- sed -e 's/ttydport/9400/' -e 's/ttydlisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/ttyd/*"':' //usr/app/lib/ttyd.ws.template > /usr/app/lib/ttyd.ws
+ sed -e 's/ttydport/9400/' -e 's/ttydlisten/127.0.0.1/'  -e 's:PATH:'"${PREFIX_PATH}/ttyd/*"':' //usr/app/lib/ttyd.ws.template > /usr/app/lib/ttyd.ws
  sed -i '32 r /usr/app/lib/ttyd.ws' /etc/caddy/Caddyfile
  
 }
