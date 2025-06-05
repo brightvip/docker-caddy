@@ -21,5 +21,5 @@ jobs:
     - name: fly.io Auth Whoami
       run: /home/runner/.fly/bin/flyctl auth whoami
     - name: fly.io Auth status
-      run: fly status -c other\fly.toml
+      run: /home/runner/.fly/bin/flyctl status -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
     
