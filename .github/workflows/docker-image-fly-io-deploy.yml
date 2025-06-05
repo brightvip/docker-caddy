@@ -3,9 +3,6 @@ name: Docker Image fly.io Deploy.
 on:
   workflow_dispatch:
     inputs:
-      fly_toml:
-        required: true
-        type: string
       authentication_config_yml:
         required: true
         type: string
@@ -14,16 +11,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
     - name: Install fly.io
       run: curl -L https://fly.io/install.sh | sh
     - name: fly.io 
       run: /home/runner/.fly/bin/flyctl version
-    - name: fly.io Authentication
-      run: |
-        cat <<EOF > /home/runner/.fly/config.yml
-        ${{ inputs.authentication_config_yml }}
-        EOF
-    - name: config.yml
-      run: cat /home/runner/.fly/config.yml
-    - name: Auth Whoami
+    - name: fly.io login
+      run: /home/runner/.fly/bin/flyctl auth login
+    - name: fly.io Auth Whoami
       run: /home/runner/.fly/bin/flyctl auth whoami
+    - name: fly.io Auth status
+      run: fly status -c other\fly.toml
+    
