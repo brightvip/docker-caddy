@@ -1,4 +1,4 @@
-name: Docker Image Build And Push
+name: Docker Image fly.io Deploy.
 
 on:
   workflow_dispatch:
