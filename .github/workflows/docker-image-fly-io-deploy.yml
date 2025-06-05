@@ -14,9 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ inputs.docker_user }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
-    - name: login docker
-      run: echo ${{ inputs.docker_password }} | docker login -u ${{ inputs.docker_user }} --password-stdin
-    - name: Push the Docker image
-      run: docker push ${{ inputs.docker_user }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
+    - name: Install fly.io
+      run: curl -L https://fly.io/install.sh | sh
+    - name: fly.io 
+      run: fly version
