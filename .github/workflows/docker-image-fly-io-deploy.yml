@@ -3,10 +3,10 @@ name: Docker Image fly.io Deploy.
 on:
   workflow_dispatch:
     inputs:
-      fly-toml:
+      fly_toml:
         required: true
         type: string
-      authentication-config-yml:
+      authentication_config_yml:
         required: true
         type: string
 
@@ -19,7 +19,7 @@ jobs:
     - name: fly.io 
       run: /home/runner/.fly/bin/flyctl version
     - name: fly.io Authentication
-      run: echo ${{ inputs.docker_user }} > /home/runner/.fly/config.yml
+      run: echo ${{ inputs.authentication_config_yml }} > /home/runner/.fly/config.yml
     - name: config.yml
       run: cat /home/runner/.fly/config.yml
     - name: Auth Whoami
