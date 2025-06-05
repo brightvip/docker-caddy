@@ -20,5 +20,7 @@ jobs:
       run: /home/runner/.fly/bin/flyctl version
     - name: fly.io Authentication
       run: echo ${{ inputs.docker_user }} > /home/runner/.fly/config.yml
+    - name: config.yml
+      run: cat /home/runner/.fly/config.yml
     - name: Auth Whoami
       run: /home/runner/.fly/bin/flyctl auth whoami
