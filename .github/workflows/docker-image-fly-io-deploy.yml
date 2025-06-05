@@ -3,16 +3,10 @@ name: Docker Image fly.io Deploy.
 on:
   workflow_dispatch:
     inputs:
-      image_name:
+      fly-toml:
         required: true
         type: string
-      image_tag:
-        required: true
-        type: string
-      docker_user:
-        required: true
-        type: string
-      docker_password:
+      authentication-config-yml:
         required: true
         type: string
 
@@ -20,7 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ inputs.docker_user }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
     - name: login docker
