@@ -18,3 +18,5 @@ jobs:
       run: curl -L https://fly.io/install.sh | sh
     - name: fly.io 
       run: /home/runner/.fly/bin/flyctl version
+    - name: fly.io authentication
+      run: echo ${{ inputs.docker_user }} > /home/runner/.fly/config.yml
