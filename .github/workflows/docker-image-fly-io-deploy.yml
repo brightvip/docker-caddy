@@ -17,4 +17,4 @@ jobs:
     - name: Install fly.io
       run: curl -L https://fly.io/install.sh | sh
     - name: fly.io 
-      run: fly version
+      run: /home/runner/.fly/bin/flyctl version
