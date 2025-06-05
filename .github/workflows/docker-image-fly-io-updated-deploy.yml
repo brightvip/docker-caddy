@@ -1,0 +1,22 @@
+name: Docker Image fly.io Updated Deploy.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install fly.io
+      run: |
+        curl -L https://fly.io/install.sh | sh
+        /home/runner/.fly/bin/flyctl version
+    - name: fly.io login
+      run: |
+        /home/runner/.fly/bin/flyctl auth login
+        /home/runner/.fly/bin/flyctl auth whoami
+    - name: fly.io deploy
+      run: |
+        /home/runner/.fly/bin/flyctl deploy -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
+        /home/runner/.fly/bin/flyctl status -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
