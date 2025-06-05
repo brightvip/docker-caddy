@@ -1,0 +1,38 @@
+# fly.toml app configuration file generated for dockercaddy on 2025-05-08T17:17:47+08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'dockercaddy'
+primary_region = "iad"
+
+[build]
+  image = "brightvip/docker-caddy:v1"
+
+[[services]]
+  internal_port = 8443
+  protocol = "tcp"
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+  [[services.ports]]
+    force_https = false
+    port = "443"
+
+[[services]]
+  internal_port = 8010
+  protocol = "tcp"
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+  [[services.ports]]
+    force_https = false
+    port = "8443"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "256mb"
+  size = "shared-cpu-2x"
