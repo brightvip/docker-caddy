@@ -21,7 +21,7 @@ jobs:
     - name: fly.io Authentication
       run: |
         cat <<EOF > /home/runner/.fly/config.yml
-        ${{ inputs.config_content }}
+        ${{ inputs.authentication_config_yml }}
         EOF
     - name: config.yml
       run: cat /home/runner/.fly/config.yml
