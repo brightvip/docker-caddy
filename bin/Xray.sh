@@ -105,14 +105,17 @@ cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
     			header Connection Upgrade
     			header Upgrade websocket
     		}
-    		reverse_proxy @websocket wslisten:wsport
+    		reverse_proxy @websocket wslisten:wsport {
+      			flush_interval -1
+      		}
 	}
 
 	handle XHTTPPATH {
     		reverse_proxy xhttplisten:xhttpport {
         		transport http {
-            		versions h2c
+            			versions h2c
         		}
+	  		flush_interval -1
     		}
 	}
 EOF
