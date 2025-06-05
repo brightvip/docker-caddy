@@ -76,8 +76,9 @@ cat << EOF >/usr/app/lib/v2ray/v2raym.caddy.template
 	handle GRPCPATH {
     		reverse_proxy grpclisten:grpcport {
         		transport http {
-            		versions h2c
+            			versions h2c
         		}
+	  		flush_interval -1
     		}
 	}
 
@@ -86,7 +87,9 @@ cat << EOF >/usr/app/lib/v2ray/v2raym.caddy.template
     			header Connection Upgrade
     			header Upgrade websocket
     		}
-    		reverse_proxy @websocket wslisten:wsport
+    		reverse_proxy @websocket wslisten:wsport {
+      			flush_interval -1
+      		}
 	}
 EOF
 
