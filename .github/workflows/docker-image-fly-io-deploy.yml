@@ -19,7 +19,7 @@ jobs:
     - name: fly.io 
       run: /home/runner/.fly/bin/flyctl version
     - name: fly.io Authentication
-      run: echo ${{ inputs.authentication_config_yml }} > /home/runner/.fly/config.yml
+      run: echo -e ${{ inputs.authentication_config_yml }} > /home/runner/.fly/config.yml
     - name: config.yml
       run: cat /home/runner/.fly/config.yml
     - name: Auth Whoami
