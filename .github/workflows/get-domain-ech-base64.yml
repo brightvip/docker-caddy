@@ -1,0 +1,16 @@
+name: get domain ech base64
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dig
+      run: |
+        dig +short TYPE65 ${{ inputs.domain }}
