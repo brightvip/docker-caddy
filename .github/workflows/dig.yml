@@ -1,0 +1,12 @@
+name: Dig
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dig
+      run: |
+        dig +short TYPE65 tls-ech.dev
