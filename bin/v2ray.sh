@@ -93,12 +93,12 @@ cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
     }
   ],
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "rules": [
       {
         "type": "field",
         "ip": [
-          "127.0.0.1"
+          "geoip:private"
         ],
         "outboundTag": "blocked"
       }
