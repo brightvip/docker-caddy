@@ -98,8 +98,7 @@ cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
       {
         "type": "field",
         "ip": [
-          "geoip:cn",
-          "geoip:private"
+          "127.0.0.1"
         ],
         "outboundTag": "blocked"
       }
