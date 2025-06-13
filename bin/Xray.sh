@@ -38,6 +38,15 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           "earlyDataHeaderName": "Sec-WebSocket-Protocol",
           "acceptProxyProtocol": false
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic",
+          "fakedns"
+        ]
       }
     },
     {
@@ -97,6 +106,15 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
             ""
           ]
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic",
+          "fakedns"
+        ]
       }
     }
   ],
