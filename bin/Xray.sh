@@ -131,7 +131,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
     }
   ],
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "rules": [
       {
         "type": "field",
