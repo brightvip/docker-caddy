@@ -35,6 +35,15 @@ cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
         "grpcSettings": {
           "serviceName": "GRPCSERVICENAME"
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic",
+          "fakedns"
+        ]
       }
     },
     {
@@ -59,14 +68,43 @@ cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
           "earlyDataHeaderName": "Sec-WebSocket-Protocol",
           "acceptProxyProtocol": false
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic",
+          "fakedns"
+        ]
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "freedom"
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
     }
-  ]
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:cn",
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
 }
 EOF
 
