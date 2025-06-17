@@ -1,4 +1,11 @@
+FROM caddy:latest-builder AS builder
+
+RUN xcaddy build \
+    --with github.com/mholt/caddy-l4
+
 FROM caddy:latest
+
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
 RUN apk update && apk upgrade && apk add curl bash unzip openssl procps
 
