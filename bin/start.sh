@@ -33,24 +33,6 @@ if [ -z "$CADDY_SSL" ];then
 	}
 
 }
-
-
-http:// {
-
-	handle {
-		redir https://github.com
-	}	
-	
-	handle_path /html/* {
-		root * /usr/share/caddy
-		file_server
-	}
-
-
-
-
-	
-}
 EOF
 else
  mkdir -p /usr/app/ssl/
