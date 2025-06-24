@@ -113,6 +113,23 @@ $SERVERNAME {
 
 	
 }
+
+http:// {
+
+	handle {
+		redir https://github.com
+	}	
+	
+	handle_path /html/* {
+		root * /usr/share/caddy
+		file_server
+	}
+
+
+
+
+	
+}
 EOF
 fi
 
