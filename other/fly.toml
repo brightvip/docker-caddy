@@ -28,6 +28,7 @@ primary_region = "iad"
   min_machines_running = 0
   processes = ['app']
   [[services.ports]]
+    handlers = ["http"]
     force_https = false
     port = "80"
 
