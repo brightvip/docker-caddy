@@ -20,7 +20,6 @@ primary_region = "iad"
     force_https = false
     port = "443"
 
-
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
