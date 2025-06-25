@@ -30,8 +30,8 @@ if [ -z "$CADDY_SSL" ];then
 
 	servers {
 		protocols h1 h2 h2c h3
+		enable_full_duplex
 	}
-
 }
 
 
@@ -92,8 +92,8 @@ EOF
 
 	servers {
 		protocols h1 h2 h2c h3
+		enable_full_duplex
 	}
-
 }
 
 $SERVERNAME {
