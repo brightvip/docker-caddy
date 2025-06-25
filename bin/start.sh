@@ -54,15 +54,15 @@ http:// {
 EOF
 else
  mkdir -p /usr/app/ssl/
- cat << EOF >/usr/app/ssl/server.crt
+ cat << EOF >/usr/app/ssl/server.cert
 $SSLCERTIFICATE
 EOF
- sed -i 's/ /\n/g' /usr/app/ssl/server.crt
- sed -i '1,2d' /usr/app/ssl/server.crt
- sed -i '$d' /usr/app/ssl/server.crt
- sed -i '$d' /usr/app/ssl/server.crt
- sed -i '1i\-----BEGIN CERTIFICATE-----' /usr/app/ssl/server.crt
- sed -i '$a\-----END CERTIFICATE-----' /usr/app/ssl/server.crt
+ sed -i 's/ /\n/g' /usr/app/ssl/server.cert
+ sed -i '1,2d' /usr/app/ssl/server.cert
+ sed -i '$d' /usr/app/ssl/server.cert
+ sed -i '$d' /usr/app/ssl/server.cert
+ sed -i '1i\-----BEGIN CERTIFICATE-----' /usr/app/ssl/server.cert
+ sed -i '$a\-----END CERTIFICATE-----' /usr/app/ssl/server.cert
 
 
  cat << EOF >/usr/app/ssl/server.key
@@ -98,7 +98,7 @@ EOF
 
 $SERVERNAME {
 	
-	tls /usr/app/ssl/server.crt /usr/app/ssl/server.key
+	tls /usr/app/ssl/server.cert /usr/app/ssl/server.key
 
 	handle {
 		redir https://github.com
