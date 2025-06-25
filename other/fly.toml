@@ -17,7 +17,6 @@ primary_region = "iad"
   min_machines_running = 0
   processes = ['app']
   [[services.ports]]
-    force_https = false
     port = "443"
 
 [[vm]]
