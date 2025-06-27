@@ -30,14 +30,14 @@ primary_region = "iad"
     port = "80"
 
 [[services]]
-  internal_port = 8443
+  internal_port = 8010
   protocol = "tcp"
   auto_stop_machines = "suspend"
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
   [[services.ports]]
-    port = "8010"
+    port = "8443"
 
 [[vm]]
   cpu_kind = "shared"
