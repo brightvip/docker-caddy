@@ -97,13 +97,13 @@ EOF
 }
 
 $SERVERNAME {
-	
-	tls /usr/app/ssl/server.cert /usr/app/ssl/server.key
+	tls /usr/app/ssl/server.cert /usr/app/ssl/server.key {
+		protocols tls1.3
+	}
 
 	handle {
 		redir https://github.com
-	}	
-	
+	}
 	handle_path /html/* {
 		root * /usr/share/caddy
 		file_server
