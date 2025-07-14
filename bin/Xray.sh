@@ -77,46 +77,6 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           "fakedns"
         ]
       }
-    },
-    {
-      "port": rawport,
-      "listen": "rawlisten",
-      "protocol": "rawprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "rawCLIENTSID",
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "raw",
-        "security": "reality",
-        "realitySettings": {
-          "show": false,
-	  "target": "rawtarget",
-	  "xver": 0,
-          "serverNames": [
-            rawserverNames
-          ],
-
-          "privateKey": "rawprivateKey",
-          "shortIds": [
-            ""
-          ]
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic",
-          "fakedns"
-        ]
-      }
     }
   ],
   "outbounds": [
@@ -174,9 +134,6 @@ EOF
 
  sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' \
      -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/"':'  \
-     -e 's:rawport:'"${RAWPORT:-8010}"':'  -e 's:rawlisten:'"${RAWLISTEN:-127.0.0.1}"':' -e 's/rawprotocol/vless/' -e 's:rawCLIENTSID:'"${CLIENTSID}"':' \
-     -e 's|rawtarget|'"${RAWTARGET:-0}"'|'  -e 's:rawserverNames:'""\"$(echo ${RAWSERVERNAMES:-0 1} | sed 's/ /\",\"/g')\"""':' \
-     -e 's:rawprivateKey:'"${RAWPRIVATEKEY:-0000000000000000000000000000000000000000000}"':' \
      /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
 
  sync
