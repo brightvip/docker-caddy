@@ -8,9 +8,11 @@
 2 Decrypt and unzip the configuration file or Unzip the configuration file
 ```bash
 openssl aes-256-cbc -d -pbkdf2 -k $CmDc#RaX30O0M@\!$ -in cfg_export_config_file.conf -out - | tar -zxvf -
+```
 OR
 ```bash
-tar -xvzf cfg_export_config_file.conf 
+tar -xvzf cfg_export_config_file.conf
+```
 ```
 
 [https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8](https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8)
