@@ -6,17 +6,13 @@
 ```
 1 Configuration Management->Export Configuration File
 2 Decrypt and unzip the configuration file or Unzip the configuration file
-openssl aes-256-cbc -d -pbkdf2 -k $CmDc#RaX30O0M@\!$ -in cfg_export_config_file.conf -out - | tar -zxvf -
-OR
-```shell
-tar -xvzf cfg_export_config_file.conf
-
-```shell
-#!/bin/bash
-echo "Hello, world!"
-ls -l
-
-
+   openssl aes-256-cbc -d -pbkdf2 -k $CmDc#RaX30O0M@\!$ -in cfg_export_config_file.conf -out - | tar -zxvf -
+   OR
+   tar -xvzf cfg_export_config_file.conf
+3 Modify the configuration file
+   Edit 'etc/config/dropbear', set 'enable' to '1'.
+   Edit 'etc/shadow', update (remove) root password:
+      'root::19523:0:99999:7:::'
 ```
 
 [https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8](https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8)
