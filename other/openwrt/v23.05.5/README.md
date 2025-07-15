@@ -3,6 +3,15 @@
 
 ## Instructions
 [https://blog.codee.top/rax3000m%E6%90%9E%E6%9C%BA%E7%9B%AE%E5%BD%95/#%E5%BC%80%E5%90%AFssh%E6%B5%81%E7%A8%8B%E5%9B%BE](https://blog.codee.top/rax3000m%E6%90%9E%E6%9C%BA%E7%9B%AE%E5%BD%95/#%E5%BC%80%E5%90%AFssh%E6%B5%81%E7%A8%8B%E5%9B%BE)
+```
+1 Configuration Management->Export Configuration File
+2 Decrypt and unzip the configuration file or Unzip the configuration file
+```bash
+openssl aes-256-cbc -d -pbkdf2 -k $CmDc#RaX30O0M@\!$ -in cfg_export_config_file.conf -out - | tar -zxvf -
+OR
+```bash
+tar -xvzf cfg_export_config_file.conf 
+```
 
 [https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8](https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8)
 ```
