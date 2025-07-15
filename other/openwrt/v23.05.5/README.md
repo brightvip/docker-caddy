@@ -11,6 +11,12 @@ OR
 ```shell
 tar -xvzf cfg_export_config_file.conf
 
+```shell
+#!/bin/bash
+echo "Hello, world!"
+ls -l
+
+
 ```
 
 [https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8](https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8)
