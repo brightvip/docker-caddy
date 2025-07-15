@@ -18,10 +18,17 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
+    - name: openwrt config
+      run: |
+        mv  other/openwrt/v23.05.5/makeconfigcmccrax3000memmcrootfssize59392 openwrt/.config
+    - name: openwrt make
+      run: |
+        cd openwrt
+        make download -j$(nproc)
+        make -j$(nproc)
     - name: Store packages
       uses: actions/upload-artifact@v4
       with:
         name: packages
         path: |
-          openwrt/config.tmp
+          openwrt/bin/targets/
