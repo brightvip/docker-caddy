@@ -13,6 +13,11 @@
    Edit 'etc/config/dropbear', set 'enable' to '1'.
    Edit 'etc/shadow', update (remove) root password:
       'root::19523:0:99999:7:::'
+4 Packaging Configuration File
+   tar -zcvf - etc | openssl aes-256-cbc -pbkdf2 -k $CmDc#RaX30O0M@\!$ -out cfg_export_config_file_new.conf
+   OR
+   tar -zcvf  cfg_export_config_file_new.conf etc
+5 Importing the configuration file
 ```
 
 [https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8](https://git.openwrt.org/?p=openwrt/openwrt.git;a=commit;h=423186d7d8b4f23aee91fca4f1774a195eba00d8)
