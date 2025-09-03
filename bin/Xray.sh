@@ -58,7 +58,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           {
             "id": "xhttpCLIENTSID",
             "level": 0,
-			"flow": "xtls-rprx-vision"
+            "flow": "xtls-rprx-vision"
           }
         ],
         "decryption": "VLESS_ENCRYPTION"
@@ -206,6 +206,7 @@ do
     start
     
 done
+
 
 
 
