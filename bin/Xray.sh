@@ -137,7 +137,7 @@ EOF
  
  sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' \
      -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/"':'  \
-	 -e -e 's:VLESS_ENCRYPTION:'"${VLESS_ENCRYPTION}"':' \
+	 -e 's:VLESS_ENCRYPTION:'"${VLESS_ENCRYPTION}"':' \
      /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
 
  sync
@@ -206,4 +206,5 @@ do
     start
     
 done
+
 
