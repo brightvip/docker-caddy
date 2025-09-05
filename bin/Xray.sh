@@ -58,7 +58,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           {
             "id": "wsxCLIENTSID",
             "level": 0,
-			"flow": "xtls-rprx-vision"
+            "flow": "xtls-rprx-vision"
           }
         ],
         "decryption": "wsxdecryption"
@@ -155,6 +155,16 @@ cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
       		}
 	}
 
+	handle WSXPATH {
+    		@websocket {
+    			header Connection Upgrade
+    			header Upgrade websocket
+    		}
+    		reverse_proxy @websocket wsxlisten:wsxport {
+      			flush_interval -1
+      		}
+	}
+
 	handle XHTTPPATH {
     		reverse_proxy xhttplisten:xhttpport {
         		transport http {
@@ -170,7 +180,7 @@ EOF
  sync
  
  sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' \
-     -e 's/wsxport/9303/'  -e 's/wsxprotocol/vless/' -e 's/wsxlisten/127.0.0.1/' -e 's:wsxCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/"':' \
+     -e 's/wsxport/9304/'  -e 's/wsxprotocol/vless/' -e 's/wsxlisten/127.0.0.1/' -e 's:wsxCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/"':' \
      -e 's:wsxdecryption:'"${VLESS_ENCRYPTION}"':' \
      -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttplx/"':'  \
 	 -e 's:xhttpdecryption:'"${VLESS_ENCRYPTION}"':' \
@@ -179,7 +189,8 @@ EOF
  sync
 
  sed -e 's/wsport/9303/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/*"':' \
-     -e 's/xhttpport/9300/' -e 's/xhttplisten/127.0.0.1/'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/*"':'  /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
+     -e 's/wsxport/9304/' -e 's/wsxlisten/127.0.0.1/'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/*"':' \
+     -e 's/xhttpport/9300/' -e 's/xhttplisten/127.0.0.1/'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttplx/*"':'  /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
 
  sync
 
@@ -242,6 +253,7 @@ do
     start
     
 done
+
 
 
 
