@@ -136,6 +136,12 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           "geoip:private"
         ],
         "outboundTag": "blocked"
+      },
+      {
+        "type": "field",
+        "port": "443",
+		"network": "udp",
+        "outboundTag": "blocked"
       }
     ]
   }
@@ -253,3 +259,4 @@ do
     start
     
 done
+
