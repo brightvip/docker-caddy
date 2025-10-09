@@ -140,7 +140,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
       {
         "type": "field",
         "port": "443",
-		"network": "udp",
+        "network": "udp",
         "outboundTag": "blocked"
       }
     ]
@@ -259,5 +259,6 @@ do
     start
     
 done
+
 
 
