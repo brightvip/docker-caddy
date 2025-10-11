@@ -182,8 +182,6 @@ cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
 EOF
 
  sync
- xray.exe mlkem768
- sync
  
  sed -e 's/wsport/9303/'  -e 's/wsprotocol/vless/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsl/"':' \
      -e 's/wsxport/9304/'  -e 's/wsxprotocol/vless/' -e 's/wsxlisten/127.0.0.1/' -e 's:wsxCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/"':' \
@@ -259,6 +257,7 @@ do
     start
     
 done
+
 
 
 
