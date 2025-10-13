@@ -22,6 +22,6 @@ jobs:
     - name: fly.io deploy
       run: |
         /home/runner/.fly/bin/flyctl deploy
-        /home/runner/.fly/bin/flyctl scale count 2
+        /home/runner/.fly/bin/flyctl scale count 2 --yes
         /home/runner/.fly/bin/flyctl status
         
