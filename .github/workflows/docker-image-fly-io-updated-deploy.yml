@@ -21,7 +21,6 @@ jobs:
         /home/runner/.fly/bin/flyctl auth whoami
     - name: fly.io deploy
       run: |
-#        /home/runner/.fly/bin/flyctl deploy
         /home/runner/.fly/bin/flyctl status
 #        /home/runner/.fly/bin/flyctl deploy -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
 #        /home/runner/.fly/bin/flyctl status -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
