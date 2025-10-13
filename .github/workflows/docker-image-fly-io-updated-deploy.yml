@@ -6,8 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      PATH: "/home/runner/.fly/bin:${{ env.PATH }}"
     defaults:
       run:
          working-directory: ./other/
