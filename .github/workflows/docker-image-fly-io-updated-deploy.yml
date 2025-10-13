@@ -14,9 +14,9 @@ jobs:
     - name: Install fly.io
       run: |
         ls -la
-        echo $PATH
         curl -L https://fly.io/install.sh | sh
         /home/runner/.fly/bin/flyctl version
+        echo $PATH
     - name: fly.io login
       run: |
         ls -la
