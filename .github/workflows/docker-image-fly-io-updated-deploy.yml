@@ -20,7 +20,7 @@ jobs:
       run: |
         ls -la
         echo $FLYCTL_INSTALL
-        echo $$PATH
+        echo $PATH
 #        /home/runner/.fly/bin/flyctl auth login
 #        /home/runner/.fly/bin/flyctl auth whoami
 #    - name: fly.io deploy
