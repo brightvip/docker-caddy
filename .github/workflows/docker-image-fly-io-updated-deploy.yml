@@ -13,21 +13,16 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install fly.io
       run: |
-        ls -la
         curl -L https://fly.io/install.sh | sh
-        echo "/home/runner/.fly/bin" >> $GITHUB_PATH
-        echo $GITHUB_PATH
-        cat $GITHUB_PATH
-        echo $PATH
-        flyctl version
-#        /home/runner/.fly/bin/flyctl version
+        /home/runner/.fly/bin/flyctl version
     - name: fly.io login
       run: |
-        ls -la
-        echo $PATH
-#        /home/runner/.fly/bin/flyctl auth login
-#        /home/runner/.fly/bin/flyctl auth whoami
-#    - name: fly.io deploy
-#      run: |
+        /home/runner/.fly/bin/flyctl auth login
+        /home/runner/.fly/bin/flyctl auth whoami
+    - name: fly.io deploy
+      run: |
+#        /home/runner/.fly/bin/flyctl deploy
+        /home/runner/.fly/bin/flyctl status
 #        /home/runner/.fly/bin/flyctl deploy -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
 #        /home/runner/.fly/bin/flyctl status -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
+
