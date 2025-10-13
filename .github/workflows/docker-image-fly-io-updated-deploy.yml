@@ -14,12 +14,12 @@ jobs:
     - name: Install fly.io
       run: |
         ls -la
+        echo $PATH
         curl -L https://fly.io/install.sh | sh
         /home/runner/.fly/bin/flyctl version
     - name: fly.io login
       run: |
         ls -la
-        echo $FLYCTL_INSTALL
         echo $PATH
 #        /home/runner/.fly/bin/flyctl auth login
 #        /home/runner/.fly/bin/flyctl auth whoami
