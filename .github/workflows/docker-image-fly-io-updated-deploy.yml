@@ -19,6 +19,7 @@ jobs:
         echo $GITHUB_PATH
         cat $GITHUB_PATH
         echo $PATH
+        flyctl version
 #        /home/runner/.fly/bin/flyctl version
     - name: fly.io login
       run: |
