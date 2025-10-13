@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-         working-directory: ./
+         working-directory: ./other/
     steps:
     - uses: actions/checkout@v4
     - name: Install fly.io
@@ -16,4 +16,14 @@ jobs:
         ls -la
         curl -L https://fly.io/install.sh | sh
         /home/runner/.fly/bin/flyctl version
-
+    - name: fly.io login
+      run: |
+        ls -la
+        echo $FLYCTL_INSTALL
+        echo $$PATH
+#        /home/runner/.fly/bin/flyctl auth login
+#        /home/runner/.fly/bin/flyctl auth whoami
+#    - name: fly.io deploy
+#      run: |
+#        /home/runner/.fly/bin/flyctl deploy -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
+#        /home/runner/.fly/bin/flyctl status -c /home/runner/work/docker-caddy/docker-caddy/other/fly.toml
