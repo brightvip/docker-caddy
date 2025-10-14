@@ -21,7 +21,7 @@ jobs:
         /home/runner/.fly/bin/flyctl auth whoami
     - name: fly.io deploy
       run: |
-        /home/runner/.fly/bin/flyctl deploy
-        /home/runner/.fly/bin/flyctl scale count 2 --yes
+        /home/runner/.fly/bin/flyctl deploy --ha=false
+        /home/runner/.fly/bin/flyctl scale count 1 --yes
         /home/runner/.fly/bin/flyctl status
         
