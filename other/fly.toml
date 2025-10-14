@@ -18,6 +18,9 @@ primary_region = "iad"
   processes = ['app']
   [[services.ports]]
     port = "443"
+  [services.concurrency]
+    type = "connections"
+    soft_limit = 100
 
 [[vm]]
   cpu_kind = "shared"
