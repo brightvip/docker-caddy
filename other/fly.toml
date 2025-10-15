@@ -21,10 +21,6 @@ primary_region = "iad"
   [services.concurrency]
     type = "connections"
     soft_limit = 50
-  [[services.tcp_checks]]
-    grace_period = "5s"
-    interval = "30s"
-    timeout = "5s"
 
 [[vm]]
   cpu_kind = "shared"
