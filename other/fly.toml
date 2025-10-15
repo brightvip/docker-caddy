@@ -32,6 +32,14 @@ primary_region = "iad"
   memory = "256mb"
   size = "shared-cpu-2x"
 
+[checks]
+  [checks.8443_tcp_check]
+    grace_period = "5s"
+    interval = "30s"
+    port = 8443
+    timeout = "5s"
+    type = "tcp"
+
 [[restart]]
   policy = "always"
   retries = 10
