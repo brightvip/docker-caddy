@@ -1,10 +1,16 @@
 #!/bin/bash
 
+#swap
+fallocate -l 512M /usr/app/bin/swapfile
+chmod 0600 /usr/app/bin/swapfile
+mkswap /usr/app/bin/swapfile
+swapon /usr/app/bin/swapfile
+echo 10 > /proc/sys/vm/swappiness
+echo 1 > /proc/sys/vm/overcommit_memory
 
 mkdir -p /etc/caddy/
 
 #/etc/caddy/Caddyfile
-
 if [ -z "$HTTP_PORT" ]; then
     export HTTP_PORT=8080
 fi
@@ -120,7 +126,7 @@ sync
 
 #Other
 for file in /usr/app/bin/*; do
-    if [ `basename $file` != start.sh ] && [ `basename $file` != entrypoint.sh ];
+    if [ `basename $file` != start.sh ];
     then
 	   cat $file | tr -d '\r'  | bash  >/usr/share/caddy/`basename $file`.html 2>&1 &
 	   sync
@@ -128,4 +134,5 @@ for file in /usr/app/bin/*; do
 done
 
 sync
+
 
