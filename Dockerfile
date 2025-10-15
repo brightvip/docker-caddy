@@ -9,5 +9,6 @@ RUN chmod +x /usr/app/bin/entrypoint.sh && \
 
 EXPOSE 8080
 EXPOSE 8443
+ENTRYPOINT ["/usr/app/bin/entrypoint.sh"]
 CMD /bin/bash -c "cat /usr/app/bin/start.sh | tr -d '\r'  | sh" \
     && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
