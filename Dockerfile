@@ -2,8 +2,7 @@ FROM caddy:latest
 
 COPY bin /usr/app/bin
 
-RUN chmod +x /usr/app/bin/entrypoint.sh && \
-    apk update && \
+RUN apk update && \
     apk upgrade && \
     apk add curl bash unzip openssl procps
 
