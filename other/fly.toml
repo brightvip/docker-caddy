@@ -26,7 +26,7 @@ primary_region = "iad"
   cpu_kind = "shared"
   cpus = 1
   memory = "256mb"
-  size = "shared-cpu-2x"
+  size = "shared-cpu-1x"
 
 [checks]
   [checks.8443_tcp_check]
