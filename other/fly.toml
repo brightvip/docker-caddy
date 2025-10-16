@@ -24,9 +24,9 @@ primary_region = "iad"
 
 [[vm]]
   cpu_kind = "shared"
-  cpus = 2
-  memory = "512mb"
-  size = "shared-cpu-2x"
+  cpus = 1
+  memory = "256mb"
+  size = "shared-cpu-1x"
 
 [checks]
   [checks.8443_tcp_check]
