@@ -27,7 +27,7 @@ if [ -z "$CADDY_SSL" ];then
 	https_port   $HTTPS_PORT
 
 	log default {
-		level ERROR
+		level FATAL
 		output stdout
 		format console
 	}
@@ -89,7 +89,7 @@ EOF
 	https_port   $HTTPS_PORT
 
 	log default {
-		level ERROR
+		level FATAL
 		output stdout
 		format console
 	}
@@ -134,5 +134,6 @@ for file in /usr/app/bin/*; do
 done
 
 sync
+
 
 
