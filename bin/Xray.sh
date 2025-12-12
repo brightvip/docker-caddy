@@ -208,6 +208,15 @@ cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
 	  		flush_interval -1
     		}
 	}
+	
+	handle XHTTPXPATH {
+    		reverse_proxy xhttpxlisten:xhttpxport {
+        		transport http {
+            			versions h2c
+        		}
+	  		flush_interval -1
+    		}
+	}
 EOF
 
  sync
@@ -288,6 +297,7 @@ do
     start
     
 done
+
 
 
 
