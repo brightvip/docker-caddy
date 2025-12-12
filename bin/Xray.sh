@@ -127,7 +127,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
         "decryption": "xhttpxdecryption"
       },
       "streamSettings": {
-        "network": "xhttpx",
+        "network": "xhttp",
         "xhttpSettings": {
           "path": "XHTTPXPATH"
         }
@@ -297,6 +297,7 @@ do
     start
     
 done
+
 
 
 
