@@ -17,7 +17,7 @@ conf(){
 EOF
 
  sed -e 's/ttydport/9400/' -e 's/ttydlisten/127.0.0.1/'  -e 's:PATH:'"${PREFIX_PATH}/ttyd/*"':' //usr/app/lib/ttyd.ws.template > /usr/app/lib/ttyd.ws
- sed -i '32 r /usr/app/lib/ttyd.ws' /etc/caddy/Caddyfile
+ awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/ttyd.ws' /etc/caddy/Caddyfile
  
 }
 conf
@@ -73,3 +73,4 @@ do
     start
     
 done
+
