@@ -238,7 +238,7 @@ EOF
 
  sync
 
- sed -i '32 r /usr/app/lib/Xray/Xrayl.caddy' /etc/caddy/Caddyfile
+ awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/Xray/Xrayl.caddy' /etc/caddy/Caddyfile
 
  sync
 
@@ -297,6 +297,7 @@ do
     start
     
 done
+
 
 
 
