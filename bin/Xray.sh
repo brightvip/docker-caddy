@@ -160,8 +160,8 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
         "security": "reality",
         "realitySettings": {
           "show": false,
-	  "target": "rawtarget",
-	  "xver": 0,
+        "target": "rawtarget",
+        "xver": 0,
           "serverNames": [
             rawserverNames
           ],
@@ -340,6 +340,7 @@ do
     start
     
 done
+
 
 
 
