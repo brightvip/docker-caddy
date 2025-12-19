@@ -141,46 +141,6 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
           "fakedns"
         ]
       }
-    },
-    {
-      "port": rawport,
-      "listen": "rawlisten",
-      "protocol": "rawprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "rawCLIENTSID",
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "raw",
-        "security": "reality",
-        "realitySettings": {
-          "show": false,
-        "target": "rawtarget",
-        "xver": 0,
-          "serverNames": [
-            rawserverNames
-          ],
-
-          "privateKey": "rawprivateKey",
-          "shortIds": [
-            ""
-          ]
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic",
-          "fakedns"
-        ]
-      }
     }
   ],
   "outbounds": [
@@ -267,9 +227,6 @@ EOF
      -e 's/xhttpport/9300/'  -e 's/xhttpprotocol/vless/' -e 's/xhttplisten/127.0.0.1/' -e 's:xhttpCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPPATH:'"${PREFIX_PATH}/xhttpl/"':'  \
 	 -e 's/xhttpxport/9305/'  -e 's/xhttpxprotocol/vless/' -e 's/xhttpxlisten/127.0.0.1/' -e 's:xhttpxCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPXPATH:'"${PREFIX_PATH}/xhttplx/"':'  \
 	 -e 's:xhttpxdecryption:'"${VLESS_ENCRYPTION}"':' \
-	 -e 's:rawport:'"${RAWPORT:-9306}"':'  -e 's:rawlisten:'"${RAWLISTEN:-127.0.0.1}"':' -e 's/rawprotocol/vless/' -e 's:rawCLIENTSID:'"${CLIENTSID}"':' \
-     -e 's|rawtarget|'"${RAWTARGET:-0}"'|'  -e 's:rawserverNames:'""\"$(echo ${RAWSERVERNAMES:-0 1} | sed 's/ /\",\"/g')\"""':' \
-     -e 's:rawprivateKey:'"${RAWPRIVATEKEY:-0000000000000000000000000000000000000000000}"':' \
      /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
 
  sync
@@ -340,6 +297,7 @@ do
     start
     
 done
+
 
 
 
