@@ -281,7 +281,7 @@ start(){
 
         nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.json  >/usr/share/caddy/Xrayl.html 2>&1 &
 
-        echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
+        echo `date`"-"$latest_version > /usr/share/caddy/Xrayversion.html
     fi
 }
 start
@@ -297,6 +297,7 @@ do
     start
     
 done
+
 
 
 
