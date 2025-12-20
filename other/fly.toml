@@ -36,7 +36,7 @@ primary_region = "iad"
 #     timeout = "5s"
 #     type = "tcp"
 
-[[restart]]
-  policy = "always"
-  retries = 10
-  processes = ["app"]
+#[[restart]]
+#  policy = "always"
+#  retries = 10
+#  processes = ["app"]
