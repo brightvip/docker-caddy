@@ -292,9 +292,9 @@ start
 #基本不会通过while进行更新会在每次容器创建时更新
 while true
 do
-    #sleep 1d
+    sleep 1d
     echo "start"
-    #start
+    start
     
 done
 
