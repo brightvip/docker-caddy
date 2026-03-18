@@ -10,4 +10,4 @@ RUN apk update && \
 EXPOSE 8080 8443
 
 ENTRYPOINT ["/usr/app/bin/start.sh"]
-CMD caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
