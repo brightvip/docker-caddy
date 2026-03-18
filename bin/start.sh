@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #swap
 if [ $(free -m | awk '/^Swap:/{print $2}') -lt 512 ]; then
     echo "Before Swap: $(free -m | awk '/^Swap:/{print $2}')MB"
@@ -142,7 +144,4 @@ done
 sync
 
 
-
-
-
-
+exec "$@"
