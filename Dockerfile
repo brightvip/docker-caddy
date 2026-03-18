@@ -4,9 +4,10 @@ COPY bin /usr/app/bin
 
 RUN apk update && \
     apk upgrade && \
-    apk add curl bash unzip openssl procps
+    apk add curl bash unzip openssl procps && \
+    sed -i 's/\r$//' /usr/app/bin/start.sh && chmod +x /usr/app/bin/start.sh
 
 EXPOSE 8080 8443
 
-CMD /bin/bash -c "cat /usr/app/bin/start.sh | tr -d '\r'  | sh" && \
-    caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+ENTRYPOINT ["/usr/app/bin/start.sh"]
+CMD caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
