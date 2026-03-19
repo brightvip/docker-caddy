@@ -136,8 +136,9 @@ sync
 for file in /usr/app/bin/*; do
     if [ `basename $file` != start.sh ];
     then
-	   cat $file | tr -d '\r'  | bash  >/usr/share/caddy/`basename $file`.html 2>&1 &
-	   sync
+		sed -i 's/\r$//' $file
+	    bash $file >/usr/share/caddy/`basename $file`.html 2>&1 &
+	    sync
     fi
 done
 
