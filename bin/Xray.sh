@@ -99,12 +99,7 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
       "streamSettings": {
         "network": "xhttp",
         "xhttpSettings": {
-          "path": "XHTTPPATH",
-		  "xPaddingObfsMode": true,
-		  "xPaddingMethod": "tokenish",
-		  "xPaddingPlacement": "queryInHeader",
-		  "xPaddingHeader": "X-Cache",
-		  "xPaddingKey": "_dc"
+          "path": "XHTTPPATH"
         }
       },
       "sniffing": {
@@ -134,7 +129,12 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
       "streamSettings": {
         "network": "xhttp",
         "xhttpSettings": {
-          "path": "XHTTPXPATH"
+          "path": "XHTTPXPATH",
+          "xPaddingObfsMode": true,
+          "xPaddingMethod": "tokenish",
+          "xPaddingPlacement": "queryInHeader",
+          "xPaddingHeader": "X-Cache",
+          "xPaddingKey": "_dc"
         }
       },
       "sniffing": {
