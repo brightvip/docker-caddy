@@ -235,7 +235,7 @@ start(){
             for vfile in ` ls $path | grep -v $latest_version`
             do
                 
-                vfilepid=`ps -ef |grep $vfile | grep -v 'grep'  | awk '{print $1}' | tr "\n" " "`
+                vfilepid=`ps -ef |grep $vfile | grep -v 'grep'  | awk '{print $2}' | tr "\n" " "`
                 if [ ! -z "$vfilepid" ]; then  
                     echo $vfilepid
                     kill -9 $vfilepid
