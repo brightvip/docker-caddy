@@ -22,6 +22,7 @@ primary_region = "iad"
   [services.concurrency]
     type = "connections"
     soft_limit = 100
+    hard_limit = 150
 
 [[vm]]
   cpu_kind = "shared"
