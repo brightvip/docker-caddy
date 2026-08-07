@@ -2,6 +2,13 @@ name: Docker Image fly.io Updated Deploy.
 
 on:
   workflow_dispatch:
+    inputs:
+      login_email:
+        required: true
+        type: string
+      login_password:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -17,7 +24,7 @@ jobs:
         /home/runner/.fly/bin/flyctl version
     - name: fly.io login
       run: |
-        /home/runner/.fly/bin/flyctl auth login
+        /home/runner/.fly/bin/flyctl auth login --email ${{ inputs.login_email }} --password ${{ inputs.login_password }}
         /home/runner/.fly/bin/flyctl auth whoami
     - name: fly.io deploy
       run: |
