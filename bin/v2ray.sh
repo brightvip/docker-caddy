@@ -101,12 +101,6 @@ cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
           "127.0.0.1"
         ],
         "outboundTag": "blocked"
-      },
-      {
-        "type": "field",
-        "port": "443",
-        "network": "udp",
-        "outboundTag": "blocked"
       }
     ]
   }
