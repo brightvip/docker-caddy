@@ -90,7 +90,8 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
     {
       "tag": "direct",
       "protocol": "freedom",
-      "settings": {}
+      "settings": {},
+	  "targetStrategy": "ForceIPv6v4"
     },
     {
       "tag": "blocked",
