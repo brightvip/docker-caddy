@@ -162,7 +162,7 @@ conf
 
 #获取最新版本
 get_latest_version(){
- latest_version=`curl --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0" "https://api.github.com/repos/XTLS/Xray-core/releases" -s  | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'`
+ latest_version=`curl -user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0" "https://api.github.com/repos/XTLS/Xray-core/releases" -s  | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/'`
 }
 
 #运行程序
