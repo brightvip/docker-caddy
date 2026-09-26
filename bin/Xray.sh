@@ -85,18 +85,30 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
         ]
       }
     }
-  ],
+  ],  
+  "dns": {
+    "servers": [
+      {
+        "address": "https://1.1.1.1/dns-query",
+        "queryStrategy": "UseSystem"
+      },
+      {
+        "address": "https://8.8.8.8/dns-query",
+        "queryStrategy": "UseSystem"
+      }
+    ]
+  },
   "outbounds": [
     {
       "tag": "direct",
       "protocol": "freedom",
-      "settings": {}
+      "settings": {},
+	  "targetStrategy": "ForceIPv6v4"
     },
     {
       "tag": "blocked",
       "protocol": "blackhole",
-      "settings": {},
-	  "queryStrategy": "UseIPv6"
+      "settings": {}
     }
   ],
   "routing": {
