@@ -95,7 +95,8 @@ cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
     {
       "tag": "blocked",
       "protocol": "blackhole",
-      "settings": {}
+      "settings": {},
+	  "queryStrategy": "UseIPv6"
     }
   ],
   "routing": {
