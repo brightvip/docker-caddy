@@ -593,7 +593,6 @@ EOF
   - DOMAIN-SUFFIX,mgtv.com,DIRECT
   - DOMAIN-SUFFIX,mi-img.com,DIRECT
   - DOMAIN-SUFFIX,copilot.microsoft.com,PROXY
-  - DOMAIN-SUFFIX,copilot.microsoft.com,PROXY
   - DOMAIN-SUFFIX,copilot-copilot-msft-com.trafficmanager.net,PROXY
   - DOMAIN-SUFFIX,copilot.microsoft.com.edgekey.net.edgekey.net,PROXY
   - DOMAIN-SUFFIX,e107108.dscx.akamaiedge.net,PROXY
