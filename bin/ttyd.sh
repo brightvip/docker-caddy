@@ -56,7 +56,7 @@ start(){
             done
          
         chmod +x $path$latest_version/ttyd.x86_64
-        $path$latest_version/ttyd.x86_64 -p 9400 -i 127.0.0.1 -W bash
+        nohup $path$latest_version/ttyd.x86_64 -p 9400 -i 127.0.0.1 -W bash > /dev/null 2>&1 &
         
     fi
 }
