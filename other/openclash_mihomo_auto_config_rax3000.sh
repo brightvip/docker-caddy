@@ -855,9 +855,11 @@ EOF
   - DOMAIN-KEYWORD,twitter,PROXY
   - DOMAIN-SUFFIX,instagram.com,PROXY
   - DOMAIN-SUFFIX,muse.ai,PROXY
+  - DOMAIN-SUFFIX,metaaivm.com,PROXY
   - DOMAIN-SUFFIX,cdninstagram.com,PROXY
   - DOMAIN-KEYWORD,instagram,PROXY
   - DOMAIN-KEYWORD,muse,PROXY
+  - DOMAIN-KEYWORD,metaaivm,PROXY
   - DOMAIN-SUFFIX,instagr.am,PROXY
   - DOMAIN-KEYWORD,gmail,PROXY
   - DOMAIN-KEYWORD,pixiv,PROXY
