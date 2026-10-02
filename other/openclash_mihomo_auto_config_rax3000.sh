@@ -378,7 +378,7 @@ dns:
       - 'tcp://1.1.1.1#PROXY'
       - 'tcp://8.8.8.8#PROXY'
     "geosite:category-ads-all": rcode://success
-    "+.facebook.com,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
+    "+.muse.ai,+.metaaivm.com,+.facebook.com,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
       - 'tcp://1.1.1.1#PROXY'
       - 'tcp://8.8.8.8#PROXY'    
     #"www.baidu.com,+.google.cn": [223.5.5.5, https://dns.alidns.com/dns-query]
