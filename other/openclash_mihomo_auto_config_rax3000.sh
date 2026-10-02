@@ -2,10 +2,10 @@
 
 
 update(){
- /usr/share/openclash/openclash_ipdb.sh
- /usr/share/openclash/openclash_geosite.sh
- /usr/share/openclash/openclash_geoip.sh
- /usr/share/openclash/openclash_chnroute.sh
+# /usr/share/openclash/openclash_ipdb.sh
+# /usr/share/openclash/openclash_geosite.sh
+# /usr/share/openclash/openclash_geoip.sh
+# /usr/share/openclash/openclash_chnroute.sh
  /bin/opkg update && /bin/opkg upgrade tar `/bin/opkg list-upgradable | /usr/bin/awk '{print $1}'| /usr/bin/awk BEGIN{RS=EOF}'{gsub(/\n/," ");print}'` --force-overwrite
 }
 
@@ -60,18 +60,18 @@ find-process-mode: strict
 mode: rule
 
 #自定义 geodata url
-#  geox-url:
-#    geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
-#    geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
-#    mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+geox-url:
+  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
 
-geo-auto-update: false # 是否自动更新 geodata
-#  geo-update-interval: 24 # 更新间隔，单位：小时
+geo-auto-update: true # 是否自动更新 geodata
+geo-update-interval: 24 # 更新间隔，单位：小时
 
 # Matcher implementation used by GeoSite, available implementations:
 # - succinct (default, same as rule-set)
 # - mph (from V2Ray, also `hybrid` in Xray)
-geosite-matcher: succinct
+# geosite-matcher: succinct
 
 log-level: error # 日志等级 silent/error/warning/info/debug
 
@@ -105,23 +105,22 @@ external-controller: 0.0.0.0:9093 # RESTful API 监听地址
 # ！！！注意： 从Windows namedpipe访问api接口不会验证secret， 如果开启请自行保证安全问题 ！！！
 # external-controller-pipe: \\.\pipe\mihomo
 
+# 为 external-controller 和 external-controller-tls 的监听socket设置routing-mark（仅支持linux）
+# external-controller-routing-mark: 0
+
 # tcp-concurrent: true # TCP 并发连接所有 IP, 将使用最快握手的 TCP
 
 # 配置 WEB UI 目录，使用 http://{{external-controller}}/ui 访问
-#  external-ui: /path/to/ui/folder/
-#  external-ui-name: xd
-#  external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+# external-ui: /path/to/ui/folder/
+# external-ui-name: xd
+# 目前支持下载zip,tgz格式的压缩包
+# external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
 # 在RESTful API端口上开启DOH服务器
 # ！！！该URL不会验证secret， 如果开启请自行保证安全问题 ！！！
 #external-doh-server: /dns-query
 
 # interface-name: en0 # 设置出口网卡
-
-# 全局 TLS 指纹，优先低于 proxy 内的 client-fingerprint
-# 可选： "chrome","firefox","safari","ios","random","none" options.
-# Utls is currently support TLS transport in TCP/grpc/WS/HTTP for VLESS/Vmess and trojan.
-global-client-fingerprint: chrome
 
 #  TCP keep alive interval
 disable-keep-alive: false #目前在android端强制为true
@@ -140,10 +139,6 @@ experimental:
 
 # 类似于 /etc/hosts, 仅支持配置单个 IP
 hosts:
-
-EOF
-
-    read -r -d '' mihomo_config_hosts <<- 'EOF'
 # '*.mihomo.dev': 127.0.0.1
 # '.dev': 127.0.0.1
 # 'alpha.mihomo.dev': '::1'
@@ -160,7 +155,7 @@ profile: # 存储 select 选择记录
 # Tun 配置
 tun:
   enable: false
-  stack: system # gvisor/mixed
+  stack: mips # gvisor/mixed/system
   dns-hijack:
     - 0.0.0.0:53 # 需要劫持的 DNS
   # auto-detect-interface: true # 自动识别出口网卡
@@ -171,6 +166,7 @@ tun:
   auto-redirect: false # 自动配置 iptables 以重定向 TCP 连接。仅支持 Linux。带有 auto-redirect 的 auto-route 现在可以在路由器上按预期工作，无需干预。
   # strict-route: true # 将所有连接路由到 tun 来防止泄漏，但你的设备将无法其他设备被访问
   # disable-icmp-forwarding: true # 禁用 ICMP 转发，防止某些情况下的 ICMP 环回问题，ping 将不会显示真实的延迟
+  # congestion-controller: cubic # TCP congestion controller: cubic, reno, bbr, or bbr3; only effective on mips
   route-address-set: # 将指定规则集中的目标 IP CIDR 规则添加到防火墙, 不匹配的流量将绕过路由, 仅支持 Linux，且需要 nftables，`auto-route` 和 `auto-redirect` 已启用。
     - ruleset-1
     - ruleset-2
@@ -201,6 +197,10 @@ tun:
   #- 1000
   # exclude-uid-range: # 排除路由的的用户范围
   # - 1000:9999
+  # include-mac-address:
+  # - 00:11:22:33:44:55
+  # exclude-mac-address:
+  # - 00:11:22:33:44:55
 
   # Android 用户和应用规则仅在 Android 下被支持
   # 并且需要 auto-route
@@ -216,20 +216,20 @@ tun:
 
 # 嗅探域名 可选配置
 sniffer:
-  enable: false
+  enable: true
   ## 对 redir-host 类型识别的流量进行强制嗅探
   ## 如：Tun、Redir 和 TProxy 并 DNS 为 redir-host 皆属于
   # force-dns-mapping: false
   ## 对所有未获取到域名的流量进行强制嗅探
-  # parse-pure-ip: false
+  # parse-pure-ip: true
   # 是否使用嗅探结果作为实际访问，默认 true
   # 全局配置，优先级低于 sniffer.sniff 实际配置
-  override-destination: false
+  override-destination: true
   sniff: # TLS 和 QUIC 默认如果不配置 ports 默认嗅探 443
     QUIC:
-    #  ports: [ 443 ]
+     ports: [ 443 ]
     TLS:
-    #  ports: [443, 8443]
+     ports: [443, 8443]
 
     # 默认嗅探 80
     HTTP: # 需要嗅探的端口
@@ -247,16 +247,16 @@ sniffer:
   #   - Mijia Cloud
   # 需要嗅探协议
   # 已废弃，若 sniffer.sniff 配置则此项无效
-  sniffing:
-    - tls
-    - http
+  # sniffing:
+    # - tls
+    # - http
   # 强制对此域名进行嗅探
 
   # 仅对白名单中的端口进行嗅探，默认为 443，80
   # 已废弃，若 sniffer.sniff 配置则此项无效
-  port-whitelist:
-    - "80"
-    - "443"
+  # port-whitelist:
+    # - "80"
+    # - "443"
     # - 8000-9999
 
 #tunnels: # one line config
@@ -295,8 +295,20 @@ dns:
     #- rule-set:fakeip-filter
     # fakeip-filter 为 geosite 中名为 fakeip-filter 的分类（需要自行保证该分类存在）
     #- geosite:fakeip-filter
+
+    # 当 fake-ip-filter-mode: rule 时开启规则模式
+    # fake-ip 与路由 rules 匹配逻辑一致(自上而下)，语法也一致，支持GEOSITE、RuleSet、DOMAIN*、MATCH
+    #- RULE-SET,reject-domain,fake-ip # 自定义 RuleSet behavior 必须为 domain/classical，当为 classical 时仅会生效域名类规则
+    #- RULE-SET,proxy-domain,fake-ip
+    #- GEOSITE,gfw,fake-ip
+    #- DOMAIN,www.baidu.com,real-ip
+    #- DOMAIN-SUFFIX,qq.com,real-ip
+    #- DOMAIN-SUFFIX,jd.com,fake-ip
+    #- MATCH,fake-ip # 最后 fake-ip or real-ip
+
   # 配置fake-ip-filter的匹配模式，默认为blacklist，即如果匹配成功不返回fake-ip
   # 可设置为whitelist，即只有匹配成功才返回fake-ip
+  # 也可配置为rule，规则模式语法见fake-ip-filter说明
   fake-ip-filter-mode: blacklist
   # 配置fakeip查询返回的TTL，非必要情况下请勿修改
   fake-ip-ttl: 1
@@ -308,7 +320,7 @@ dns:
   # 如果为true，将会按照rules的规则匹配链接方式（走代理或直连），如果有特别指定则任然以指定值为准
   # 仅当proxy-server-nameserver非空时可以开启此选项, 强烈不建议和prefer-h3一起使用
   # 此外，这三者配置中的dns服务器如果出现域名会采用default-nameserver配置项解析，也请确保正确配置default-nameserver
-  respect-rules: true
+  respect-rules: false
 
   # DNS主要域名配置
   # 支持 UDP，TCP，DoT，DoH，DoQ
@@ -320,9 +332,9 @@ dns:
   # 当配置 fallback 时，会查询 nameserver 中返回的 IP 是否为 CN，非必要配置
   # 当不是 CN，则使用 fallback 中的 DNS 查询结果
   # 确保配置 fallback 时能够正常查询
-  fallback:
-    - 'tcp://8.8.8.8#PROXY'
-    - 'tcp://1.1.1.1#PROXY'
+  #  fallback:
+  #    - 'tcp://1.1.1.1#PROXY'
+  #    - 'tcp://8.8.8.8#PROXY'
 
   # 指定 DNS 过代理查询，ProxyGroupName 为策略组名或节点名，过代理配置优先于配置出口网卡，当找不到策略组或节点名则设置为出口网卡
 
@@ -335,58 +347,40 @@ dns:
   direct-nameserver:
     - dhcp://eth1
     #- system://
-  direct-nameserver-follow-policy: false # 是否遵循nameserver-policy，默认为不遵守，仅当direct-nameserver不为空时生效
+  direct-nameserver-follow-policy: true # 是否遵循nameserver-policy，默认为不遵守，仅当direct-nameserver不为空时生效
 
 
 
   # 配置 fallback 使用条件
-  fallback-filter:
-    geoip: true # 配置是否使用 geoip
-    geoip-code: CN # 当 nameserver 域名的 IP 查询 geoip 库为 CN 时，不使用 fallback 中的 DNS 查询结果
-  #   配置强制 fallback，优先于 IP 判断，具体分类自行查看 geosite 库
-  #   geosite:
-  #     - gfw
-  #   如果不匹配 ipcidr 则使用 nameservers 中的结果
-  #   ipcidr:
+  #  fallback-filter:
+  #    geoip: true # 配置是否使用 geoip
+  #   geoip-code: CN # 当 nameserver 解析出域名的 IP 查询 geoip 库为 CN 时， 使用 nameserver 中的 DNS 查询结果
+  #   ipcidr:        # 当 nameserver 解析出域名的 IP 匹配 ipcidr 时，使用 fallback 中的 DNS 查询结果
   #     - 240.0.0.0/4
-    domain:
-      - '+.facebook.com'
-      - '+.google.com'
-      - '+.gstatic.com'
-      - '+.google.co.jp'
-      - '+.youtube.com'
-      - '+.ytimg.com'
-      - '+.googlevideo.com'
-      - '+.goog'
-      - '+.googleapis.com'
-      - '+.ggpht.com'
-      - '+.googleusercontent.com'
-      - '+.googleapis-cn.com'
-      - '+.doubleclick.net'
-      - '+.googleadservices.com'
-      - '+.googlesyndication.com'
-      - '+.openwrt.org'
-      - '+.openai.com'
-      - '+.chatgpt.com'
-      - '+.x.ai'
-      - '+.grok.com'
-      - '+.twitter.com'
-      - '+.twimg.com'
-      - '+.x.com'
-      - '+.returnyoutubedislikeapi.com'
-      - '+.ajay.app'
-      - '+.v2fly.org'
-      - '+.v2ray.com'
-      - '+.microsoft.com'
+  #     - 0.0.0.0/32
+  #     - 127.0.0.1/32
+  #     - 100.64.0.0/10
+  #   domain:        # 匹配到这些域名，会直接使用 fallback 解析，不去使用 nameserver
+  #     - '+.google.com'
+  #     - '+.facebook.com'
+  #     - '+.youtube.com'
+  #   geosite:       # 匹配到这些域名，会直接使用 fallback 解析，不去使用 nameserver（已废弃，请使用 nameserver-policy）
+  #     - gfw
+  # fallback-lazy-query: false # 默认值为 false ，如果为 true 会先判断来自 nameserver 的结果是否满足 fallback-filter 后再发起查询
 
   # 配置查询域名使用的 DNS 服务器
   nameserver-policy:
     #   'www.baidu.com': '114.114.114.114'
     #   '+.internal.crop.com': '10.0.0.1'
-    #"geosite:cn,private,apple":
-    #  - https://doh.pub/dns-query
-    #   - https://dns.alidns.com/dns-query
-    #"geosite:category-ads-all": rcode://success
+    "geosite:cn,private":
+      - dhcp://eth1
+    "geosite:gfw":
+      - 'tcp://1.1.1.1#PROXY'
+      - 'tcp://8.8.8.8#PROXY'
+    "geosite:category-ads-all": rcode://success
+    "+.facebook.com,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
+      - 'tcp://1.1.1.1#PROXY'
+      - 'tcp://8.8.8.8#PROXY'    
     #"www.baidu.com,+.google.cn": [223.5.5.5, https://dns.alidns.com/dns-query]
     ## global，dns 为 rule-providers 中的名为 global 和 dns 规则订阅，
     ## 且 behavior 必须为 domain/classical，当为 classical 时仅会生效域名类规则
@@ -413,6 +407,7 @@ EOF
     read -r -d '' mihomo_config_end <<- 'EOF'
   #- AND,((IP-CIDR6,::/0),(NETWORK,UDP),(DST-PORT,443),(OR,((DOMAIN-KEYWORD,youtube),(DOMAIN-KEYWORD,goog)))),REJECT
   - IN-USER,username,PROXY
+  - DOMAIN,mask-api.icloud.com,PROXY
   - DOMAIN-SUFFIX,.cn,DIRECT
   - DOMAIN-SUFFIX,baidu.com,DIRECT
   - DOMAIN-SUFFIX,baidubcr.com,DIRECT
@@ -1056,15 +1051,15 @@ EOF
   - IP-CIDR,192.168.0.0/16,DIRECT
   - IP-CIDR,10.0.0.0/8,DIRECT
   - IP-CIDR,172.16.0.0/12,DIRECT
-  - GEOIP,CN,DIRECT
-  - GEOIP,US,PROXY
-  - GEOIP,DE,PROXY
-  - GEOIP,JP,PROXY
+  #- GEOSITE,CN,DIRECT
+  - GEOSITE,gfw,PROXY
+  #- GEOIP,CN,DIRECT
+  #- GEOIP,US,PROXY
+  #- GEOIP,DE,PROXY
+  #- GEOIP,JP,PROXY
   #- DST-PORT,80,DIRECT
   #- SRC-PORT,7777,DIRECT
   #- RULE-SET,apple,REJECT # Premium only
-  #- GEOSITE,gfw,PROXY
-  #- GEOSITE,CN,DIRECT
   - MATCH,DIRECT
 EOF
 
@@ -1095,33 +1090,91 @@ EOF
 auto_mihomo_config(){
     read -r -d '' mihomo_config_proxie_ws <<- 'EOF'
 
-  - name: vmess-ws_%s
+  - name: vless-xhttp_%s
     type: vless
     server: %s
-    port:  
+    port: 443
     uuid: 
-    encryption: ""
-    flow: xtls-rprx-vision
-    alterId: 0
-    cipher: auto
     udp: true
     tls: true
+    network: xhttp
+    alpn: [h2]
+    # ech-opts: ...
+    # reality-opts: ...
     skip-cert-verify: false
+    # fingerprint: ...
+    # certificate: ...
+    # private-key: ...
     servername: 
-    network: ws
-    ech-opts:
-      enable: false
-      #config: 
-    ws-opts:
-       path: 
-       headers:
-           Host: 
-       #max-early-data: 1024
-       #early-data-header-name: Sec-WebSocket-Protocol
+    client-fingerprint: chrome
+    encryption: "m"
+    flow: xtls-rprx-vision
+    xhttp-opts:
+      path: ""
+      host: 
+      mode: "stream-up" # Available: "stream-one", "stream-up" or "packet-up"
+      # headers:
+      #   X-Forwarded-For: ""
+      # no-grpc-header: false
+      # x-padding-bytes: "100-1000"
+      # x-padding-obfs-mode: false
+      # x-padding-key: x_padding
+      # x-padding-header: Referer
+      # x-padding-placement: queryInHeader # Available: queryInHeader, cookie, header, query
+      # x-padding-method: repeat-x # Available: repeat-x, tokenish
+      # uplink-http-method: POST # Available: POST, PUT, PATCH, DELETE
+      # session-placement: path # Available: path, query, cookie, header
+      # session-key: ""
+      # seq-placement: path # Available: path, query, cookie, header
+      # seq-key: ""
+      # uplink-data-placement: body # Available: body, cookie, header
+      # uplink-data-key: ""
+      # uplink-chunk-size: 0 # only applicable when uplink-data-placement is not body
+      # sc-max-each-post-bytes: 1000000
+      # sc-min-posts-interval-ms: 30
+      # reuse-settings: # aka XMUX
+      #   max-concurrency: "16-32"
+      #   max-connections: "0"
+      #   c-max-reuse-times: "0"
+      #   h-max-request-times: "600-900"
+      #   h-max-reusable-secs: "1800-3000"
+      #   h-keep-alive-period: 0
+      # download-settings:
+      #   ## xhttp part
+      #   path: "/"
+      #   host: xxx.com
+      #   headers:
+      #     X-Forwarded-For: ""
+      #   reuse-settings: # aka XMUX
+      #     max-concurrency: "16-32"
+      #     max-connections: "0"
+      #     c-max-reuse-times: "0"
+      #     h-max-request-times: "600-900"
+      #     h-max-reusable-secs: "1800-3000"
+      #     h-keep-alive-period: 0
+      #   ## proxy part
+      #   server: server
+      #   port: 443
+      #   tls: true
+      #   alpn: ...
+      #   ech-opts: ...
+      #   shadow-tls-opts: ...
+      #   restls-opts: ...
+      #   jls-opts: ...
+      #   reality-opts: ...
+      #   skip-cert-verify: false
+      #   name-cert-verify: example.com # 仅修改证书 DNSName 校验目标，不修改 SNI
+      #   fingerprint: ...
+      #   certificate: ...
+      #   private-key: ...
+      #   servername: xxx.com
+      #   client-fingerprint: chrome
+
+
 
 EOF
 
-    domains='developers.cloudflare.com blog.cloudflare.com cloudflareinsights.com auth.openai.com polestar.com'
+    domains='www.domain.com'
 
     
     if [ -n "$domains" ] ; then
@@ -1138,7 +1191,7 @@ EOF
       proxies_domains=''
       for domain in $domains
       do 
-          proxies_domains="$proxies_domains   - vmess-ws_$domain
+          proxies_domains="$proxies_domains   - vless-xhttp_$domain
     "
       done
 
