@@ -850,7 +850,6 @@ EOF
   - DOMAIN-SUFFIX,joinclubhouse.com,PROXY
   - DOMAIN-SUFFIX,ap3.agora.io,PROXY
   - DOMAIN-KEYWORD,aka,PROXY
-  - DOMAIN-KEYWORD,aka,PROXY
   - DOMAIN-KEYWORD,youtube,PROXY
   - DOMAIN-KEYWORD,twitter,PROXY
   - DOMAIN-SUFFIX,facebook.com,PROXY
