@@ -378,7 +378,7 @@ dns:
       - 'tcp://1.1.1.1#PROXY'
       - 'tcp://8.8.8.8#PROXY'
     "geosite:category-ads-all": rcode://success
-    "+.muse.ai,+.metaaivm.com,+.facebook.com,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
+    "+.metaaivm.com,+.muse.ai,+.facebook.com,+.facebook.net,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
       - 'tcp://1.1.1.1#PROXY'
       - 'tcp://8.8.8.8#PROXY'    
     #"www.baidu.com,+.google.cn": [223.5.5.5, https://dns.alidns.com/dns-query]
@@ -850,13 +850,16 @@ EOF
   - DOMAIN-SUFFIX,joinclubhouse.com,PROXY
   - DOMAIN-SUFFIX,ap3.agora.io,PROXY
   - DOMAIN-KEYWORD,aka,PROXY
-  - DOMAIN-KEYWORD,facebook,PROXY
+  - DOMAIN-KEYWORD,aka,PROXY
   - DOMAIN-KEYWORD,youtube,PROXY
   - DOMAIN-KEYWORD,twitter,PROXY
+  - DOMAIN-SUFFIX,facebook.com,PROXY
+  - DOMAIN-SUFFIX,facebook.net,PROXY
   - DOMAIN-SUFFIX,instagram.com,PROXY
   - DOMAIN-SUFFIX,muse.ai,PROXY
   - DOMAIN-SUFFIX,metaaivm.com,PROXY
   - DOMAIN-SUFFIX,cdninstagram.com,PROXY
+  - DOMAIN-KEYWORD,facebook,PROXY
   - DOMAIN-KEYWORD,instagram,PROXY
   - DOMAIN-KEYWORD,muse,PROXY
   - DOMAIN-KEYWORD,metaaivm,PROXY
