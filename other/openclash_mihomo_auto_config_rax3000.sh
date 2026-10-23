@@ -378,7 +378,7 @@ dns:
       - 'tcp://1.1.1.1#PROXY'
       - 'tcp://8.8.8.8#PROXY'
     "geosite:category-ads-all": rcode://success
-    "+.metaaivm.com,+.muse.ai,+.facebook.com,+.facebook.net,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
+    "+.muse.ai,+.metaaivm.com,+.facebook.net,+.facebook.com,+.google.com,+.gstatic.com,+.google.co.jp,+.youtube.com,+.ytimg.com,+.googlevideo.com,+.goog,+.googleapis.com,+.ggpht.com,+.googleusercontent.com,+.googleapis-cn.com,+.doubleclick.net,+.googleadservices.com,+.googlesyndication.com,+.openwrt.org,+.openai.com,+.chatgpt.com,+.x.ai,+.grok.com,+.twitter.com,+.twimg.com,+.x.com,+.returnyoutubedislikeapi.com,+.ajay.app,+.v2fly.org,+.v2ray.com,+.microsoft.com":
       - 'tcp://1.1.1.1#PROXY'
       - 'tcp://8.8.8.8#PROXY'    
     #"www.baidu.com,+.google.cn": [223.5.5.5, https://dns.alidns.com/dns-query]
@@ -1122,11 +1122,11 @@ auto_mihomo_config(){
       #   X-Forwarded-For: ""
       # no-grpc-header: false
       # x-padding-bytes: "100-1000"
-      # x-padding-obfs-mode: false
-      # x-padding-key: x_padding
-      # x-padding-header: Referer
-      # x-padding-placement: queryInHeader # Available: queryInHeader, cookie, header, query
-      # x-padding-method: repeat-x # Available: repeat-x, tokenish
+      x-padding-obfs-mode: true
+      x-padding-key: _dc
+      x-padding-header: X-Cache
+      x-padding-placement: queryInHeader # Available: queryInHeader, cookie, header, query
+      x-padding-method: tokenish # Available: repeat-x, tokenish
       # uplink-http-method: POST # Available: POST, PUT, PATCH, DELETE
       # session-placement: path # Available: path, query, cookie, header
       # session-key: ""
@@ -1302,11 +1302,17 @@ download_openclash(){
 update
 init_mihomo_config
 install_mihomo
-/etc/init.d/openclash restart
+/etc/init.d/openclash stop
+rm -rf /tmp/openclash.change
+/etc/init.d/openclash start
 auto_mihomo_config
-/etc/init.d/openclash restart
+/etc/init.d/openclash stop
+rm -rf /tmp/openclash.change
+/etc/init.d/openclash start
 download_openclash
-#/etc/init.d/network restart
+/etc/init.d/openclash stop
+rm -rf /tmp/openclash.change
+/etc/init.d/openclash start
 #opkg update
 #opkg remove dnsmasq wpad-basic-wolfssl
 #opkg install kmod-tcp-bbr  wpad-openssl tar
