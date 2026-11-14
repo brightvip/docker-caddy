@@ -2,20 +2,6 @@
 
 set -e
 
-#swap
-if [ $(free -m | awk '/^Swap:/{print $2}') -lt 512 ]; then
-    echo "Before Swap: $(free -m | awk '/^Swap:/{print $2}')MB"
-    fallocate -l 512M /usr/app/bin/swapfile
-    chmod 600 /usr/app/bin/swapfile
-    mkswap /usr/app/bin/swapfile
-    if swapon /usr/app/bin/swapfile; then
-        echo 10 > /proc/sys/vm/swappiness
-        echo 1 > /proc/sys/vm/overcommit_memory
-    fi
-fi
-echo "Swap: $(free -m | awk '/^Swap:/{print $2}')MB"
-
-
 mkdir -p /etc/caddy/
 
 #/etc/caddy/Caddyfile
