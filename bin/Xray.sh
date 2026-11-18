@@ -175,7 +175,7 @@ conf
 
 #获取最新版本
 get_latest_version(){
- latest_version=`curl -s --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0" "https://api.github.com/repos/XTLS/Xray-core/releases" | awk -F'"' '/"tag_name":/ {print $4; exit}'`
+ latest_version=`curl --retry 10 --retry-max-time 120 -s --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0" "https://api.github.com/repos/XTLS/Xray-core/releases" | awk -F'"' '/"tag_name":/ {print $4; exit}'`
  echo $latest_version
 }
 
@@ -193,7 +193,7 @@ start(){
         #文件夹不存在
         mkdir -p $path$latest_version
         #下载文件
-        curl --retry 10 --retry-max-time 60 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version/Xray-linux-64.zip
+        curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version/Xray-linux-64.zip
         unzip -q $path$latest_version/Xray-linux-64.zip -d $path$latest_version/
             #循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
