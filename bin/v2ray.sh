@@ -171,7 +171,11 @@ start(){
         #下载文件
         curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version/v2ray-linux-64.zip
         unzip -q $path$latest_version/v2ray-linux-64.zip -d $path$latest_version/
-            #循环删除其他版本
+     fi
+
+	 if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
+			echo "nohub"
+			#循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
             do
                 
