@@ -43,7 +43,10 @@ start(){
         mkdir -p $path$latest_version
         #下载文件
         curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version/ttyd.x86_64
-            #循环删除其他版本
+    fi
+	
+	if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
+			#循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
             do
                 
