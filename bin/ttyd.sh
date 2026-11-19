@@ -46,6 +46,7 @@ start(){
     fi
 	
 	if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
+			echo "nohup"	
 			#循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
             do
