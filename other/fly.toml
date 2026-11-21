@@ -4,7 +4,7 @@
 #
 
 app = 'dockercaddy'
-primary_region = "lax"
+primary_region = "ewr"
 # swap_size_mb = 512
 
 [build]
