@@ -7,145 +7,152 @@ path='/usr/app/lib/v2ray/bin/'
 
 conf(){
  mkdir -p /usr/app/lib/v2ray/
- 
-cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
-{
-  "log": {
-    "access": "none",
-    "error": "none",
-    "loglevel": "none"
-  },
-  "inbounds": [
-    {
-      "port": grpcport,
-      "listen": "grpclisten",
-      "protocol": "grpcprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "grpcCLIENTSID",
-            "level": 0
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "grpc",
-        "security": "none",
-        "grpcSettings": {
-          "serviceName": "GRPCSERVICENAME"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic",
-          "fakedns"
-        ]
-      }
-    },
-    {
-      "port": wsport,
-      "listen": "wslisten",
-      "protocol": "wsprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "wsCLIENTSID",
-            "level": 0
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "security": "none",
-        "wsSettings": {
-          "path": "WSPATH",
-          "maxEarlyData": 1024,
-          "earlyDataHeaderName": "Sec-WebSocket-Protocol",
-          "acceptProxyProtocol": false
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic",
-          "fakedns"
-        ]
-      }
-    }
-  ],
-  "outbounds": [
-    {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {}
-    },
-    {
-      "tag": "blocked",
-      "protocol": "blackhole",
-      "settings": {}
-    }
-  ],
-  "routing": {
-    "domainStrategy": "AsIs",
-    "rules": [
-      {
-        "type": "field",
-        "ip": [
-          "127.0.0.1"
-        ],
-        "outboundTag": "blocked"
-      }
-    ]
-  }
-}
-EOF
 
-sync
+ if [ ! -f /usr/app/lib/v2ray/v2raym.json ]; then
 
-cat << EOF >/usr/app/lib/v2ray/v2raym.caddy.template
-	handle GRPCPATH {
-    		reverse_proxy grpclisten:grpcport {
-        		transport http {
-            			versions h2c
-        		}
-	  		flush_interval -1
-    		}
-	}
-
-  	handle WSPATH {
-    		@websocket {
-    			header Connection Upgrade
-    			header Upgrade websocket
-    		}
-    		reverse_proxy @websocket wslisten:wsport {
-      			flush_interval -1
-      		}
+	cat << EOF >/usr/app/lib/v2ray/v2rayConfig.json.template
+	{
+	  "log": {
+	    "access": "none",
+	    "error": "none",
+	    "loglevel": "none"
+	  },
+	  "inbounds": [
+	    {
+	      "port": grpcport,
+	      "listen": "grpclisten",
+	      "protocol": "grpcprotocol",
+	      "settings": {
+	        "clients": [
+	          {
+	            "id": "grpcCLIENTSID",
+	            "level": 0
+	          }
+	        ],
+	        "decryption": "none"
+	      },
+	      "streamSettings": {
+	        "network": "grpc",
+	        "security": "none",
+	        "grpcSettings": {
+	          "serviceName": "GRPCSERVICENAME"
+	        }
+	      },
+	      "sniffing": {
+	        "enabled": true,
+	        "destOverride": [
+	          "http",
+	          "tls",
+	          "quic",
+	          "fakedns"
+	        ]
+	      }
+	    },
+	    {
+	      "port": wsport,
+	      "listen": "wslisten",
+	      "protocol": "wsprotocol",
+	      "settings": {
+	        "clients": [
+	          {
+	            "id": "wsCLIENTSID",
+	            "level": 0
+	          }
+	        ],
+	        "decryption": "none"
+	      },
+	      "streamSettings": {
+	        "network": "ws",
+	        "security": "none",
+	        "wsSettings": {
+	          "path": "WSPATH",
+	          "maxEarlyData": 1024,
+	          "earlyDataHeaderName": "Sec-WebSocket-Protocol",
+	          "acceptProxyProtocol": false
+	        }
+	      },
+	      "sniffing": {
+	        "enabled": true,
+	        "destOverride": [
+	          "http",
+	          "tls",
+	          "quic",
+	          "fakedns"
+	        ]
+	      }
+	    }
+	  ],
+	  "outbounds": [
+	    {
+	      "tag": "direct",
+	      "protocol": "freedom",
+	      "settings": {}
+	    },
+	    {
+	      "tag": "blocked",
+	      "protocol": "blackhole",
+	      "settings": {}
+	    }
+	  ],
+	  "routing": {
+	    "domainStrategy": "AsIs",
+	    "rules": [
+	      {
+	        "type": "field",
+	        "ip": [
+	          "127.0.0.1"
+	        ],
+	        "outboundTag": "blocked"
+	      }
+	    ]
+	  }
 	}
 EOF
-
- sync
-
- sed -e 's/grpcport/9301/'  -e 's/grpcprotocol/vmess/' -e 's/grpclisten/127.0.0.1/' -e 's:grpcCLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH#/}grpcm"':' \
-     -e 's/wsport/9302/'  -e 's/wsprotocol/vmess/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/"':' /usr/app/lib/v2ray/v2rayConfig.json.template > /usr/app/lib/v2ray/v2raym.json
+	
+	sync
+	
+	 sed -e 's/grpcport/9301/'  -e 's/grpcprotocol/vmess/' -e 's/grpclisten/127.0.0.1/' -e 's:grpcCLIENTSID:'"${CLIENTSID}"':'  -e 's:GRPCSERVICENAME:'"${PREFIX_PATH#/}grpcm"':' \
+	     -e 's/wsport/9302/'  -e 's/wsprotocol/vmess/' -e 's/wslisten/127.0.0.1/' -e 's:wsCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/"':' /usr/app/lib/v2ray/v2rayConfig.json.template > /usr/app/lib/v2ray/v2raym.json
+	 
+	 sync
  
- sync
- 
- sed -e 's/grpcport/9301/' -e 's/grpclisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}grpcm/Tun"':' \
-     -e 's/wsport/9302/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/*"':' /usr/app/lib/v2ray/v2raym.caddy.template > /usr/app/lib/v2ray/v2raym.caddy
+ fi
 
- sync
+ if [ -f /etc/caddy/Caddyfile ] && ! grep -qF "#v2ray.sh" /etc/caddy/Caddyfile; then
 
- awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/v2ray/v2raym.caddy' /etc/caddy/Caddyfile
-
- sync
- 
+	cat << EOF >/usr/app/lib/v2ray/v2raym.caddy.template
+		#v2ray.sh
+		handle GRPCPATH {
+	    		reverse_proxy grpclisten:grpcport {
+	        		transport http {
+	            			versions h2c
+	        		}
+		  		flush_interval -1
+	    		}
+		}
+	
+	  	handle WSPATH {
+	    		@websocket {
+	    			header Connection Upgrade
+	    			header Upgrade websocket
+	    		}
+	    		reverse_proxy @websocket wslisten:wsport {
+	      			flush_interval -1
+	      		}
+		}
+EOF
+	
+	 sync
+	 
+	 sed -e 's/grpcport/9301/' -e 's/grpclisten/127.0.0.1/' -e 's:GRPCPATH:'"${PREFIX_PATH}grpcm/Tun"':' \
+	     -e 's/wsport/9302/' -e 's/wslisten/127.0.0.1/'  -e 's:WSPATH:'"${PREFIX_PATH}/wsm/*"':' /usr/app/lib/v2ray/v2raym.caddy.template > /usr/app/lib/v2ray/v2raym.caddy
+	
+	 sync
+	
+	 awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/v2ray/v2raym.caddy' /etc/caddy/Caddyfile
+	
+	 sync
+ fi 
 }
 conf
 
