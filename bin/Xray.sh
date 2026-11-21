@@ -7,169 +7,176 @@ path='/usr/app/lib/Xray/bin/'
 
 conf(){
  mkdir -p /usr/app/lib/Xray/
+
+ if [ ! -f /usr/app/lib/Xray/Xrayl.json ]; then
  
-cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
-{
-  "log": {
-    "access": "none",
-    "error": "none",
-    "loglevel": "none"
-  },
-  "inbounds": [
-    {
-      "port": wsxport,
-      "listen": "wsxlisten",
-      "protocol": "wsxprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "wsxCLIENTSID",
-            "level": 0,
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "wsxdecryption"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "security": "none",
-        "wsSettings": {
-          "path": "WSXPATH",
-          "maxEarlyData": 1024,
-          "earlyDataHeaderName": "Sec-WebSocket-Protocol",
-          "acceptProxyProtocol": false
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic",
-          "fakedns"
-        ]
-      }
-    },
-    {
-      "port": xhttpxport,
-      "listen": "xhttpxlisten",
-      "protocol": "xhttpxprotocol",
-      "settings": {
-        "clients": [
-          {
-            "id": "xhttpxCLIENTSID",
-            "level": 0,
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "xhttpxdecryption"
-      },
-      "streamSettings": {
-        "network": "xhttp",
-        "xhttpSettings": {
-          "path": "XHTTPXPATH",
-          "xPaddingObfsMode": true,
-          "xPaddingMethod": "tokenish",
-          "xPaddingPlacement": "queryInHeader",
-          "xPaddingHeader": "X-Cache",
-          "xPaddingKey": "_dc"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic",
-          "fakedns"
-        ]
-      }
-    }
-  ],  
-  "dns": {
-    "servers": [
-      {
-        "address": "https://1.1.1.1/dns-query",
-        "queryStrategy": "UseSystem"
-      },
-      {
-        "address": "https://8.8.8.8/dns-query",
-        "queryStrategy": "UseSystem"
-      }
-    ]
-  },
-  "outbounds": [
-    {
-      "tag": "direct",
-      "protocol": "freedom",
-      "settings": {},
-	  "targetStrategy": "ForceIPv6v4"
-    },
-    {
-      "tag": "blocked",
-      "protocol": "blackhole",
-      "settings": {}
-    }
-  ],
-  "routing": {
-    "domainStrategy": "AsIs",
-    "rules": [
-      {
-        "type": "field",
-        "ip": [
-          "geoip:cn",
-          "geoip:private"
-        ],
-        "outboundTag": "blocked"
-      }
-    ]
-  }
-}
-EOF
-
- sync
-
-cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
-
-	handle WSXPATH {
-    		@websocket {
-    			header Connection Upgrade
-    			header Upgrade websocket
-    		}
-    		reverse_proxy @websocket wsxlisten:wsxport {
-      			flush_interval -1
-      		}
-	}
-
-	handle XHTTPXPATH {
-    		reverse_proxy xhttpxlisten:xhttpxport {
-        		transport http {
-            			versions h2c
-        		}
-	  		flush_interval -1
-    		}
+	cat << EOF >/usr/app/lib/Xray/XrayConfig.json.template
+	{
+	  "log": {
+	    "access": "none",
+	    "error": "none",
+	    "loglevel": "none"
+	  },
+	  "inbounds": [
+	    {
+	      "port": wsxport,
+	      "listen": "wsxlisten",
+	      "protocol": "wsxprotocol",
+	      "settings": {
+	        "clients": [
+	          {
+	            "id": "wsxCLIENTSID",
+	            "level": 0,
+	            "flow": "xtls-rprx-vision"
+	          }
+	        ],
+	        "decryption": "wsxdecryption"
+	      },
+	      "streamSettings": {
+	        "network": "ws",
+	        "security": "none",
+	        "wsSettings": {
+	          "path": "WSXPATH",
+	          "maxEarlyData": 1024,
+	          "earlyDataHeaderName": "Sec-WebSocket-Protocol",
+	          "acceptProxyProtocol": false
+	        }
+	      },
+	      "sniffing": {
+	        "enabled": true,
+	        "destOverride": [
+	          "http",
+	          "tls",
+	          "quic",
+	          "fakedns"
+	        ]
+	      }
+	    },
+	    {
+	      "port": xhttpxport,
+	      "listen": "xhttpxlisten",
+	      "protocol": "xhttpxprotocol",
+	      "settings": {
+	        "clients": [
+	          {
+	            "id": "xhttpxCLIENTSID",
+	            "level": 0,
+	            "flow": "xtls-rprx-vision"
+	          }
+	        ],
+	        "decryption": "xhttpxdecryption"
+	      },
+	      "streamSettings": {
+	        "network": "xhttp",
+	        "xhttpSettings": {
+	          "path": "XHTTPXPATH",
+	          "xPaddingObfsMode": true,
+	          "xPaddingMethod": "tokenish",
+	          "xPaddingPlacement": "queryInHeader",
+	          "xPaddingHeader": "X-Cache",
+	          "xPaddingKey": "_dc"
+	        }
+	      },
+	      "sniffing": {
+	        "enabled": true,
+	        "destOverride": [
+	          "http",
+	          "tls",
+	          "quic",
+	          "fakedns"
+	        ]
+	      }
+	    }
+	  ],  
+	  "dns": {
+	    "servers": [
+	      {
+	        "address": "https://1.1.1.1/dns-query",
+	        "queryStrategy": "UseSystem"
+	      },
+	      {
+	        "address": "https://8.8.8.8/dns-query",
+	        "queryStrategy": "UseSystem"
+	      }
+	    ]
+	  },
+	  "outbounds": [
+	    {
+	      "tag": "direct",
+	      "protocol": "freedom",
+	      "settings": {},
+		  "targetStrategy": "ForceIPv6v4"
+	    },
+	    {
+	      "tag": "blocked",
+	      "protocol": "blackhole",
+	      "settings": {}
+	    }
+	  ],
+	  "routing": {
+	    "domainStrategy": "AsIs",
+	    "rules": [
+	      {
+	        "type": "field",
+	        "ip": [
+	          "geoip:cn",
+	          "geoip:private"
+	        ],
+	        "outboundTag": "blocked"
+	      }
+	    ]
+	  }
 	}
 EOF
+	
+	 sync
 
- sync
+	 sed -e 's/wsxport/9304/'  -e 's/wsxprotocol/vless/' -e 's/wsxlisten/127.0.0.1/' -e 's:wsxCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/"':' \
+	     -e 's:wsxdecryption:'"${VLESS_ENCRYPTION}"':' \
+		 -e 's/xhttpxport/9305/'  -e 's/xhttpxprotocol/vless/' -e 's/xhttpxlisten/127.0.0.1/' -e 's:xhttpxCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPXPATH:'"${PREFIX_PATH}/xhttplx/"':'  \
+		 -e 's:xhttpxdecryption:'"${VLESS_ENCRYPTION}"':' \
+	     /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
+	
+	 sync
+	 
+ fi
+
+ if [ -f /etc/caddy/Caddyfile ] && ! grep -qF "#Xray.sh" /etc/caddy/Caddyfile; then
  
- sed -e 's/wsxport/9304/'  -e 's/wsxprotocol/vless/' -e 's/wsxlisten/127.0.0.1/' -e 's:wsxCLIENTSID:'"${CLIENTSID}"':'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/"':' \
-     -e 's:wsxdecryption:'"${VLESS_ENCRYPTION}"':' \
-	 -e 's/xhttpxport/9305/'  -e 's/xhttpxprotocol/vless/' -e 's/xhttpxlisten/127.0.0.1/' -e 's:xhttpxCLIENTSID:'"${CLIENTSID}"':'  -e 's:XHTTPXPATH:'"${PREFIX_PATH}/xhttplx/"':'  \
-	 -e 's:xhttpxdecryption:'"${VLESS_ENCRYPTION}"':' \
-     /usr/app/lib/Xray/XrayConfig.json.template > /usr/app/lib/Xray/Xrayl.json
-
- sync
-
- sed -e 's/wsxport/9304/' -e 's/wsxlisten/127.0.0.1/'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/*"':' \
-	 -e 's/xhttpxport/9305/' -e 's/xhttpxlisten/127.0.0.1/'  -e 's:XHTTPXPATH:'"${PREFIX_PATH}/xhttplx/*"':' /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
-
- sync
-
- awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/Xray/Xrayl.caddy' /etc/caddy/Caddyfile
-
- sync
-
+	cat << EOF >/usr/app/lib/Xray/Xrayl.caddy.template
+		#Xray.sh
+		handle WSXPATH {
+	    		@websocket {
+	    			header Connection Upgrade
+	    			header Upgrade websocket
+	    		}
+	    		reverse_proxy @websocket wsxlisten:wsxport {
+	      			flush_interval -1
+	      		}
+		}
+	
+		handle XHTTPXPATH {
+	    		reverse_proxy xhttpxlisten:xhttpxport {
+	        		transport http {
+	            			versions h2c
+	        		}
+		  		flush_interval -1
+	    		}
+		}
+EOF
+	
+	 sync
+	 
+	
+	 sed -e 's/wsxport/9304/' -e 's/wsxlisten/127.0.0.1/'  -e 's:WSXPATH:'"${PREFIX_PATH}/wslx/*"':' \
+		 -e 's/xhttpxport/9305/' -e 's/xhttpxlisten/127.0.0.1/'  -e 's:XHTTPXPATH:'"${PREFIX_PATH}/xhttplx/*"':' /usr/app/lib/Xray/Xrayl.caddy.template > /usr/app/lib/Xray/Xrayl.caddy
+	
+	 sync
+	
+	 awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/Xray/Xrayl.caddy' /etc/caddy/Caddyfile
+	
+	 sync
+ fi
 }
 conf
 
