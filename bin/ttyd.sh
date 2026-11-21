@@ -8,17 +8,21 @@ path='/usr/app/lib/ttyd/bin/'
 conf(){
  mkdir -p /usr/app/lib/ttyd
 
- cat << EOF >/usr/app/lib/ttyd/ttyd.ws.template
-	handle_path PATH {
-    		reverse_proxy ttydlisten:ttydport {
-      			flush_interval -1
-      		}
-	}
-EOF
+ if [ -f /etc/caddy/Caddyfile ] && ! grep -qF "#ttyd.sh" /etc/caddy/Caddyfile; then
 
- sed -e 's/ttydport/9400/' -e 's/ttydlisten/127.0.0.1/'  -e 's:PATH:'"${PREFIX_PATH}/ttyd/*"':' //usr/app/lib/ttyd/ttyd.ws.template > /usr/app/lib/ttyd/ttyd.ws
- awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/ttyd/ttyd.ws' /etc/caddy/Caddyfile
+	 cat << EOF >/usr/app/lib/ttyd/ttyd.ws.template
+	 	#ttyd.sh
+		handle_path PATH {
+	    		reverse_proxy ttydlisten:ttydport {
+	      			flush_interval -1
+	      		}
+		}
+EOF
+	
+	 sed -e 's/ttydport/9400/' -e 's/ttydlisten/127.0.0.1/'  -e 's:PATH:'"${PREFIX_PATH}/ttyd/*"':' //usr/app/lib/ttyd/ttyd.ws.template > /usr/app/lib/ttyd/ttyd.ws
+	 awk '/}/ {l=NR} END {if (l > 1) print l-1}' /etc/caddy/Caddyfile | xargs -r -I@ sed -i '@r /usr/app/lib/ttyd/ttyd.ws' /etc/caddy/Caddyfile
  
+ fi 
 }
 conf
 
