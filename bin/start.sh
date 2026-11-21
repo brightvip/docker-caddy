@@ -119,10 +119,9 @@ EOF
 EOF
 	fi
 	sync
-	export CADDY_FILE_MD5=`md5sum /etc/caddy/Caddyfile 2>/dev/null | awk '{print $1}'`
 fi
 
-
+export CADDY_FILE_MD5=`md5sum /etc/caddy/Caddyfile 2>/dev/null | awk '{print $1}'`
 
 #Other
 for file in /usr/app/bin/*; do
