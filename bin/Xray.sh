@@ -204,7 +204,7 @@ start(){
         if [ $? -ne 0 ] || [ ! -s "$path$latest_version$file" ]; then
             rm -rf "$path$latest_version"
         fi		 
-        unzip -q $path$latest_version/Xray-linux-64.zip -d $path$latest_version/
+        unzip -q $path$latest_version$file -d $path$latest_version/
     fi
 	
     if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
