@@ -176,7 +176,10 @@ start(){
         #文件夹不存在
         mkdir -p $path$latest_version
         #下载文件
-        curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version/v2ray-linux-64.zip
+        curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version$file
+        if [ $? -ne 0 ] || [ ! -s "$path$latest_version$file" ]; then
+            rm -rf "$path$latest_version"
+        fi		
         unzip -q $path$latest_version/v2ray-linux-64.zip -d $path$latest_version/
      fi
 
