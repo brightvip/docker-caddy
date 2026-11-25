@@ -200,11 +200,14 @@ start(){
         #文件夹不存在
         mkdir -p $path$latest_version
         #下载文件
-        curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version/Xray-linux-64.zip
+        curl --retry 10 --retry-max-time 120 -H "Cache-Control: no-cache" -fsSL $download$latest_version$file -o $path$latest_version$file
+        if [ $? -ne 0 ] || [ ! -s "$path$latest_version$file" ]; then
+            rm -rf "$path$latest_version"
+        fi		 
         unzip -q $path$latest_version/Xray-linux-64.zip -d $path$latest_version/
     fi
 	
-    if [ -n "$latest_version" ] && [ -d $path$latest_version ] && [ `ls "$path$latest_version" | wc -l` -gt 1 ]; then
+    if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
 		echo "nohup"
             #循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
