@@ -183,7 +183,7 @@ start(){
         unzip -q $path$latest_version/v2ray-linux-64.zip -d $path$latest_version/
      fi
 
-	 if [ -n "$latest_version" ] && [ -d $path$latest_version ] && [ `ls "$path$latest_version" | wc -l` -gt 1 ]; then
+	 if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
 			echo "nohub"
 			#循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
