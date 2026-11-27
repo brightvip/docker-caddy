@@ -222,9 +222,10 @@ start(){
             
             done
 
-        nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.json  >/usr/share/caddy/Xrayl.html 2>&1 &
+		if [ -z "`ps -ef | grep $path$latest_version | grep -v 'grep' | awk '{print $2}' | tr "\n" " "`" ]; then
+            nohup $path$latest_version/xray run -c /usr/app/lib/Xray/Xrayl.json  >/usr/share/caddy/Xrayl.html 2>&1 &
+		fi
 
-        echo `date`"-"$latest_version > /usr/share/caddy/Xrayversion.html
     fi
 }
 start
