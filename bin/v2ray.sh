@@ -184,7 +184,7 @@ start(){
      fi
 
 	 if [ -n "$latest_version" ] && [ -d $path$latest_version ]; then
-			echo "nohub"
+			echo "nohup"
 			#循环删除其他版本
             for vfile in ` ls $path | grep -v $latest_version`
             do
@@ -197,9 +197,10 @@ start(){
                 rm -fr $path$vfile
             
             done
-        nohup $path$latest_version/v2ray run -c /usr/app/lib/v2ray/v2raym.json  >/usr/share/caddy/v2raym.html 2>&1 &
 
-        echo `date`"-"$latest_version > /usr/share/caddy/v2rayversion.html
+		if [ -z "`ps -ef | grep $path$latest_version | grep -v 'grep' | awk '{print $2}' | tr "\n" " "`" ]; then
+            nohup $path$latest_version/v2ray run -c /usr/app/lib/v2ray/v2raym.json  >/usr/share/caddy/v2raym.html 2>&1 &
+		fi
     fi
 }
 start
