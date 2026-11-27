@@ -66,9 +66,11 @@ start(){
                 rm -fr $path$vfile
             
             done
-         
-        chmod +x $path$latest_version/ttyd.x86_64
-        nohup $path$latest_version/ttyd.x86_64 -p 9400 -i 127.0.0.1 -W bash > /dev/null 2>&1 &
+
+        if [ -z "`ps -ef | grep $path$latest_version | grep -v 'grep' | awk '{print $2}' | tr "\n" " "`" ]; then
+            chmod +x $path$latest_version/ttyd.x86_64
+            nohup $path$latest_version/ttyd.x86_64 -p 9400 -i 127.0.0.1 -W bash > /dev/null 2>&1 &
+        fi
         
     fi
 }
