@@ -108,7 +108,7 @@ conf(){
 		  "streamSettings": {
 		    "sockopt": {
 			  "domainStrategy": "ForceIPv6v4"
-			{
+			}
 		  }
 	    },
 	    {
