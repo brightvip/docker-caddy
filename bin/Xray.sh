@@ -105,7 +105,11 @@ conf(){
 	      "tag": "direct",
 	      "protocol": "freedom",
 	      "settings": {},
-		  "targetStrategy": "ForceIPv6v4"
+		  "streamSettings": {
+		    "sockopt": {
+			  "domainStrategy": "ForceIPv6v4"
+			{
+		  }
 	    },
 	    {
 	      "tag": "blocked",
