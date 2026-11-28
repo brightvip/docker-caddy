@@ -91,11 +91,11 @@ conf(){
 	  "dns": {
 	    "servers": [
 	      {
-	        "address": "https://1.1.1.1/dns-query",
+	        "address": "https+local://1.1.1.1/dns-query",
 	        "queryStrategy": "UseSystem"
 	      },
 	      {
-	        "address": "https://8.8.8.8/dns-query",
+	        "address": "https+local://8.8.8.8/dns-query",
 	        "queryStrategy": "UseSystem"
 	      }
 	    ]
