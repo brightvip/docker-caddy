@@ -130,6 +130,7 @@ conf(){
 	    "rules": [
 	      {
 	        "type": "field",
+			"ip": ["1.1.1.1", "8.8.8.8"],
   	        "port": "53",
   	        "network": "tcp,udp",
   	        "outboundTag": "dns-out"
