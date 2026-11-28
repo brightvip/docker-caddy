@@ -91,6 +91,10 @@ conf(){
 	  "dns": {
 	    "servers": [
 	      {
+	        "address": "localhost",
+	        "queryStrategy": "UseSystem"
+	      },		
+	      {
 	        "address": "https+local://1.1.1.1/dns-query",
 	        "queryStrategy": "UseSystem"
 	      },
@@ -115,11 +119,21 @@ conf(){
 	      "tag": "blocked",
 	      "protocol": "blackhole",
 	      "settings": {}
+	    },
+		{
+	      "tag": "dns-out",
+	      "protocol": "dns"
 	    }
 	  ],
 	  "routing": {
 	    "domainStrategy": "AsIs",
 	    "rules": [
+	      {
+	        "type": "field",
+  	        "port": "53",
+  	        "network": "tcp,udp",
+  	        "outboundTag": "dns-out"
+	      },
 	      {
 	        "type": "field",
 	        "ip": [
